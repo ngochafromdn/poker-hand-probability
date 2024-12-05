@@ -1,4 +1,4 @@
-package A_Card_Game;
+package PokerHandProbability;
 
 import javax.swing.*;
 
@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 public class Endscreen extends JFrame {
     static Font customFont;
     static MyFrame myFrame = new MyFrame();
-    static String endMusic = "A_Card_Game/Music/ending.wav";
+    static String endMusic = "poker-hand-probability/Music/ending.wav";
 
     public static void displayResult(String word) throws Exception {
 
@@ -19,7 +19,7 @@ public class Endscreen extends JFrame {
         myFrame.revalidate();
         myFrame.repaint();
 
-        MusicHandler.playMusic("A_Card_Game/Music/ending.wav");
+        MusicHandler.playMusic("poker-hand-probability/Music/ending.wav");
 
         myFrame.getContentPane().setBackground(new Color(26, 145, 85));
         // add Gameover frame
@@ -29,12 +29,12 @@ public class Endscreen extends JFrame {
         JPanel buttonFrame = createButtonFrame();
         myFrame.add(buttonFrame);
         myFrame.setVisible(true);
-        MusicHandler.playMusic("A_Card_Game/Music/ending.wav");
+        MusicHandler.playMusic("poker-hand-probability/Music/ending.wav");
     }
 
     private static JPanel createText(String word) throws Exception {
         try {
-            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("A_Card_Game/Fonts/Moul-Regular.ttf"))
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("poker-hand-probability/Fonts/Moul-Regular.ttf"))
                     .deriveFont(80f);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(customFont);

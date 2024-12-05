@@ -1,4 +1,4 @@
-package A_Card_Game;
+package PokerHandProbability;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -11,6 +11,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
+import java.util.*;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,9 +19,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import A_Card_Game.Function.draw_random;
-import A_Card_Game.Function.get_card_infor;
-import A_Card_Game.Function.CardCombinationUtil;
+import PokerHandProbability.Function.draw_random;
+import PokerHandProbability.Function.get_card_infor;
+import PokerHandProbability.Function.CardCombinationUtil;
+import PokerHandProbability.Function.PokerProbabilityCalculator;
 
 // import button and win screen
 
@@ -44,11 +46,11 @@ public class PlayPage {
     static MyFrame myFrame;
     // call random funtion
     static draw_random randomFunction;
-    static String suffleMusic = "A_Card_Game/Music/shuffle-cards.wav";
-    static String endingMusic = "A_Card_Game/Music/ending.wav";
+    static String suffleMusic = "PokerHandProbability/Music/shuffle-cards.wav";
+    static String endingMusic = "PokerHandProbability/Music/ending.wav";
 
     public static ImageIcon add_image(String file_name) {
-        ImageIcon image = new ImageIcon("A_Card_Game/Card Image/" + file_name + ".png");
+        ImageIcon image = new ImageIcon("PokerHandProbability/Card Image/" + file_name + ".png");
         Image img = image.getImage();
         Image scaledImage = img.getScaledInstance(119, 159, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
@@ -112,7 +114,7 @@ public class PlayPage {
         // add new font
         try {
             // create the font to use. Specify the size!
-            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("A_Card_Game/Fonts/Moul-Regular.ttf"))
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("PokerHandProbability/Fonts/Moul-Regular.ttf"))
                     .deriveFont(50f);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             // register the font
@@ -129,7 +131,7 @@ public class PlayPage {
     }
 
     private static JPanel createPlayer2Panel() throws Exception {
-        ImageIcon red_card = new ImageIcon("A_Card_Game/Img/red_card.png");
+        ImageIcon red_card = new ImageIcon("PokerHandProbability/Img/red_card.png");
 
         JPanel player2 = new JPanel(new FlowLayout(FlowLayout.LEADING, 50, 0));
         player2.setBounds(450, 30, 1000, 170);
@@ -244,8 +246,32 @@ public class PlayPage {
         // Get the middle list
         String[] middle_cards = randomFunction.middle_list;
 
+        // First round: empty known cards
+        Map<String, Double> propRound1 = PokerProbabilityCalculator.calculateProbabilityOnString(
+                new String[]{}, myFiveCards, 3000000, 2);
+
+        // Second round: first 1 middle card
+        Map<String, Double> propRound2 = PokerProbabilityCalculator.calculateProbabilityOnString(
+                Arrays.copyOfRange(middle_cards, 0, 1), myFiveCards, 3000000, 2);
+
+        // Third round: first 2 middle cards
+        Map<String, Double> propRound3 = PokerProbabilityCalculator.calculateProbabilityOnString(
+                Arrays.copyOfRange(middle_cards, 0, 2), myFiveCards, 3000000, 2);
+
+        // Fourth round: first 3 middle cards
+        Map<String, Double> propRound4 = PokerProbabilityCalculator.calculateProbabilityOnString(
+                Arrays.copyOfRange(middle_cards, 0, 3), myFiveCards, 3000000, 2);
+
+        // Output the probabilities for each round
+        System.out.println("Round 1 Probability: " + propRound1);
+        System.out.println("Round 2 Probability: " + propRound2);
+        System.out.println("Round 3 Probability: " + propRound3);
+        System.out.println("Round 4 Probability: " + propRound4);
+
         String[] best_combination_1 = CardCombinationUtil.bestCombinationCards(cards_1, middle_cards);
         String[] best_combination_2 = CardCombinationUtil.bestCombinationCards(cards_2, middle_cards);
+
+
 
         System.out.println("best_combination_1 = ");
 
@@ -265,8 +291,7 @@ public class PlayPage {
         get_card_infor best_hand2_infor = new get_card_infor(best_combination_2);
         String hand2_category = best_hand2_infor.get_category_String();
 
-        System.out.println("Hand 1:" + hand1_category);
-        System.out.println("Hand 2:" + hand2_category);
+
         int result = best_hand1_infor.compare_to(best_hand2_infor);
 
         String result_;
@@ -422,7 +447,7 @@ public class PlayPage {
         centralPanel.setOpaque(false);
 
         // scale down the image
-        ImageIcon originalIcon = new ImageIcon("A_Card_Game/Img/rounded_edge_rect.png");
+        ImageIcon originalIcon = new ImageIcon("PokerHandProbability/Img/rounded_edge_rect.png");
         Image originalImage = originalIcon.getImage();
         Image scaledImage = originalImage.getScaledInstance(820, 350, Image.SCALE_DEFAULT);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);

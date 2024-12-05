@@ -1,4 +1,4 @@
-package A_Card_Game;
+package PokerHandProbability;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -14,7 +14,7 @@ class MyFrame extends JFrame {
         this.setResizable(false);
         this.setLayout(null);
 
-        ImageIcon icon_image = new ImageIcon("A_Card_Game/Background/icon.png"); // create an imageicon
+        ImageIcon icon_image = new ImageIcon("PokerHandProbability/Background/icon.png"); // create an imageicon
         this.setIconImage(icon_image.getImage()); // change the default icon into new icon
 
         this.setVisible(true);

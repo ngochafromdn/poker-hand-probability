@@ -1,4 +1,4 @@
-package A_Card_Game;
+package PokerHandProbability;
 
 import javax.swing.JButton;
 import java.awt.Color;
@@ -29,7 +29,7 @@ public class MyButton extends JButton {
         // add new font
         try {
             //create the font to use. Specify the size!
-            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("A_Card_Game/Fonts/horizon.otf")).deriveFont(30f);
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("PokerHandProbability/Fonts/horizon.otf")).deriveFont(30f);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             // register the font
             ge.registerFont(customFont);

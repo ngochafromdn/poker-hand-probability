@@ -1,4 +1,4 @@
-package A_Card_Game;
+package PokerHandProbability;
 
 import javax.sound.sampled.*;
 import javax.swing.*;

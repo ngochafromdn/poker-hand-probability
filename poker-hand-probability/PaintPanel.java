@@ -1,4 +1,4 @@
-package A_Card_Game;
+package PokerHandProbability;
 
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -18,7 +18,7 @@ public class PaintPanel extends JPanel implements ActionListener {
         this.ui = ui;
         
         try {
-            bg_img = ImageIO.read(getClass().getClassLoader().getResource("A_Card_Game/Background/" + image_name));
+            bg_img = ImageIO.read(getClass().getClassLoader().getResource("PokerHandProbability/Background/" + image_name));
         } 
         catch (IOException e){
             // throw new IllegalArgumentException(file_path);

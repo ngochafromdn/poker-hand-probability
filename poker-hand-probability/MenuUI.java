@@ -1,4 +1,4 @@
-package A_Card_Game;
+package PokerHandProbability;
 
 import java.awt.Color;
 import javax.swing.ImageIcon;
@@ -22,7 +22,7 @@ public class MenuUI extends JFrame {
         this.setLayout(null);
         this.getContentPane().setBackground(Color.white);
 
-        ImageIcon icon_image = new ImageIcon("A_Card_Game/Background/icon.png"); // create an imageicon
+        ImageIcon icon_image = new ImageIcon("PokerHandProbability/Background/icon.png"); // create an imageicon
         this.setIconImage(icon_image.getImage()); // change the default icon into new icon
 
         createMenu();

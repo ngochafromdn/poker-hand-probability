@@ -1,4 +1,4 @@
-package A_Card_Game;
+package PokerHandProbability;
 public class Main {
     public static void main(String[] args) throws Exception{
         try {

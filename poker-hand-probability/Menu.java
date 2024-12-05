@@ -1,4 +1,4 @@
-package A_Card_Game;
+package PokerHandProbability;
 
 public class Menu {
     ActionHandler aHandler = new ActionHandler(this);

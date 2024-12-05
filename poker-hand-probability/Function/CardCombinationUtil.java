@@ -1,4 +1,4 @@
-package A_Card_Game.Function;
+package PokerHandProbability.Function;
 
 import java.util.ArrayList;
 import java.util.List;

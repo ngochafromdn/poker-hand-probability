@@ -1,4 +1,4 @@
-package A_Card_Game.Graphics;
+package PokerHandProbability.Graphics;
 
 import java.awt.Color;
 import java.awt.Dimension;

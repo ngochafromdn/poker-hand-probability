@@ -1,4 +1,4 @@
-package A_Card_Game;
+package PokerHandProbability;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
