@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -12,13 +13,14 @@ import javax.swing.JPanel;
 public class PaintPanel extends JPanel implements ActionListener {
     MenuUI ui;
     BufferedImage bg_img;
-    String image_name;
 
     public PaintPanel(MenuUI ui, String image_name){
         this.ui = ui;
         
         try {
-            bg_img = ImageIO.read(getClass().getClassLoader().getResource("PokerHandProbability/Background/" + image_name));
+            String image_path = "PokerHandProbability/Background/" + image_name;
+            bg_img = ImageIO.read(new File(image_path));
+//            bg_img = ImageIO.read(getClass().getClassLoader().getResource(image_path));
         } 
         catch (IOException e){
             // throw new IllegalArgumentException(file_path);

@@ -1,4 +1,5 @@
 package PokerHandProbability;
+
 public class Main {
     public static void main(String[] args) throws Exception{
         try {
@@ -6,6 +7,5 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }
