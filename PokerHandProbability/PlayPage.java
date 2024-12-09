@@ -136,6 +136,7 @@ public class PlayPage {
         popup.setBackground(null);
         String[] cards_1 = randomFunction.card_1;
 
+        // First round: empty known cards
         Map<String, Double> propRound1 = PokerProbabilityCalculator.calculateProbabilityOnString(
                 new String[]{}, cards_1, 100000, 2);
         // Output the probabilities for each round
@@ -148,8 +149,8 @@ public class PlayPage {
         prob_royalflush = add_prob_PopUp("Royal Flush", propRound1.get("royal_flush"));
         prob_1pair = add_prob_PopUp("One Pair", propRound1.get("pair"));
 //        prob_2pair = add_prob_PopUp("Two Pair", propRound1.get("pair"));
-        prob_3ofakind = add_prob_PopUp("Three Of A Kind", propRound1.get("three_of_a_kind"));
-        prob_4ofakind = add_prob_PopUp("Four Of A Kind", propRound1.get("four_of_a_kind"));
+        prob_3ofakind = add_prob_PopUp("Three of A Kind", propRound1.get("three_of_a_kind"));
+        prob_4ofakind = add_prob_PopUp("Four of A Kind", propRound1.get("four_of_a_kind"));
 
         Box box = Box.createVerticalBox();
         box.add(prob_straight);
@@ -302,24 +303,8 @@ public class PlayPage {
         final int[] clickCount = { 0 };
 
         // Define the function for BET button
-
         // Get the cards of Computer
         String[] cards_1 = randomFunction.card_1;
-
-        // First round: empty known cards
-//        Map<String, Double> propRound1 = PokerProbabilityCalculator.calculateProbabilityOnString(
-//                new String[]{}, cards_1, 100000, 2);
-//        // Output the probabilities for each round
-//        System.out.println("Round 1 Probability: " + propRound1);
-//        System.out.println(propRound1.getClass());
-//
-//        String sth = String.valueOf(propRound1.get("straight"));
-//        System.out.println(sth);
-//        prob_straight = new JLabel("Straight: " + sth, JLabel.CENTER);
-//        prob_straight.setForeground(Color.BLACK);
-//        prob_straight.setFont(new Font("Tahoma", Font.TRUETYPE_FONT, 12));
-//        handProbFrame.add(prob_straight);
-
         String[] cards_2 = randomFunction.card_2;
         // Get the middle list
         String[] middle_cards = randomFunction.middle_list;
@@ -334,7 +319,6 @@ public class PlayPage {
 
         get_card_infor best_hand2_infor = new get_card_infor(best_combination_2);
         String hand2_category = best_hand2_infor.get_category_String();
-
 
         int result = best_hand1_infor.compare_to(best_hand2_infor);
 
@@ -374,20 +358,44 @@ public class PlayPage {
                             second_card.setIcon(add_image(middle_cards[1]));
                             third_card.setIcon(add_image(middle_cards[2]));
                             roundText.setText("Round  2");
+
                             // Second round: first 1 middle card
                             Map<String, Double> propRound2 = PokerProbabilityCalculator.calculateProbabilityOnString(
                                     Arrays.copyOfRange(middle_cards, 0, 1), cards_1, 100000, 2);
                             System.out.println("Round 2 Probability: " + propRound2);
+
+                            // Update probabilities
+                            prob_straight.setText("Straight: " + propRound2.get("straight"));
+                            prob_fullhouse.setText("Full House: " + propRound2.get("full_house"));
+                            prob_flush.setText("Flush: " + propRound2.get("flush"));
+                            prob_straightflush.setText("Straight Flush: " + propRound2.get("straight_flush"));
+                            prob_royalflush.setText("Royal Flush: " + propRound2.get("royal_flush"));
+                            prob_1pair.setText("One Pair: " + propRound2.get("pair"));
+//                            prob_2pair.setText("Two pair: " + propRound2.get("pair"));
+                            prob_3ofakind.setText("Three of A Kind: " + propRound2.get("three_of_a_kind"));
+                            prob_4ofakind.setText("Four of A Kind: " + propRound2.get("four_of_a_kind"));
                             break;
 
                         case 1:
                             MusicHandler.playMusic(suffleMusic);
                             fourth_card.setIcon(add_image(middle_cards[3]));
                             roundText.setText("Round  3");
+
                             // Third round: first 2 middle cards
                             Map<String, Double> propRound3 = PokerProbabilityCalculator.calculateProbabilityOnString(
                                     Arrays.copyOfRange(middle_cards, 0, 2), cards_1, 100000, 2);
                             System.out.println("Round 3 Probability: " + propRound3);
+
+                            // Update probabilities
+                            prob_straight.setText("Straight: " + propRound3.get("straight"));
+                            prob_fullhouse.setText("Full House: " + propRound3.get("full_house"));
+                            prob_flush.setText("Flush: " + propRound3.get("flush"));
+                            prob_straightflush.setText("Straight Flush: " + propRound3.get("straight_flush"));
+                            prob_royalflush.setText("Royal Flush: " + propRound3.get("royal_flush"));
+                            prob_1pair.setText("One Pair: " + propRound3.get("pair"));
+//                            prob_2pair.setText("Two pair: " + propRound3.get("pair"));
+                            prob_3ofakind.setText("Three of A Kind: " + propRound3.get("three_of_a_kind"));
+                            prob_4ofakind.setText("Four of A Kind: " + propRound3.get("four_of_a_kind"));
                             break;
 
                         case 2:
@@ -396,14 +404,25 @@ public class PlayPage {
                             roundText.setText("Round  4");
                             bet.setVisible(false);
                             fold.setVisible(false);
+
                             // Fourth round: first 3 middle cards
                             Map<String, Double> propRound4 = PokerProbabilityCalculator.calculateProbabilityOnString(
                                     Arrays.copyOfRange(middle_cards, 0, 3), cards_1, 100000, 2);
                             System.out.println("Round 4 Probability: " + propRound4);
 
+                            // Update probabilities
+                            prob_straight.setText("Straight: " + propRound4.get("straight"));
+                            prob_fullhouse.setText("Full House: " + propRound4.get("full_house"));
+                            prob_flush.setText("Flush: " + propRound4.get("flush"));
+                            prob_straightflush.setText("Straight Flush: " + propRound4.get("straight_flush"));
+                            prob_royalflush.setText("Royal Flush: " + propRound4.get("royal_flush"));
+                            prob_1pair.setText("One Pair: " + propRound4.get("pair"));
+//                            prob_2pair.setText("Two pair: " + propRound4.get("pair"));
+                            prob_3ofakind.setText("Three of A Kind: " + propRound4.get("three_of_a_kind"));
+                            prob_4ofakind.setText("Four of A Kind: " + propRound4.get("four_of_a_kind"));
+
                             // Show up two cards of Computer
-//                            MusicHandler.playMusic(suffleMusic);
-                            Timer timer_showing_Card = new Timer(5000, event -> {
+                            Timer timer_showing_Card = new Timer(3000, event -> {
                                 p2_first_card.setIcon(add_image(cards_2[0]));
                                 p2_second_card.setIcon(add_image(cards_2[1]));
                             });
@@ -411,9 +430,8 @@ public class PlayPage {
                             timer_showing_Card.setRepeats(false); // Ensure the timer only runs once
                             timer_showing_Card.start(); // Start the timer
 
-                            Timer timer1 = new Timer(10000, event -> {
+                            Timer timer1 = new Timer(8000, event -> {
                                 // Showing results
-
                                 // Disappear after
                                 fifth_card.setVisible(false);
                                 second_card.setVisible(false);
@@ -447,15 +465,13 @@ public class PlayPage {
                                 myFrame.add(showResult1);
                                 myFrame.add(showResult2);
                                 MusicHandler.playMusic(endingMusic);
-
+                                handProbFrame.dispose();
                             });
 
                             timer1.setRepeats(false);
                             timer1.start(); // Start the timer
-                            MusicHandler.playMusic(endingMusic);
-                            // Frame of the result
 
-                            // Delay by 2 seconds before jumping to the last screen
+                            // Frame of the result
                             Timer delayTimer = new Timer(6000, event -> {
                                 Timer timer2 = new Timer(10000, event2 -> {
                                     myFrame.dispose();
@@ -481,8 +497,6 @@ public class PlayPage {
 
                             delayTimer.setRepeats(false); // Set to execute only once
                             delayTimer.start(); // Start the delay timer
-
-                            // break;
                     }
                     clickCount[0]++;
                 }
