@@ -13,10 +13,7 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.util.*;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.Timer;
 
 import PokerHandProbability.Function.draw_random;
@@ -44,6 +41,18 @@ public class PlayPage {
     static JLabel fifth_card = new JLabel();
 
     static MyFrame myFrame;
+    static HandProb handProbFrame;
+
+    static JLabel prob_straight;
+    static JLabel prob_fullhouse;
+    static JLabel prob_flush;
+    static JLabel prob_straightflush;
+    static JLabel prob_royalflush;
+    static JLabel prob_1pair;
+    static JLabel prob_2pair;
+    static JLabel prob_3ofakind;
+    static JLabel prob_4ofakind;
+
     // call random funtion
     static draw_random randomFunction;
     static String suffleMusic = "PokerHandProbability/Music/shuffle-cards.wav";
@@ -58,11 +67,17 @@ public class PlayPage {
         return scaledIcon;
     }
 
+    public static JLabel add_prob_PopUp(String hand_name, double hand_prob) {
+        JLabel prob = new JLabel(hand_name + ": " + hand_prob, JLabel.LEFT);
+        prob.setForeground(Color.BLACK);
+        prob.setFont(new Font("Tahoma", Font.TRUETYPE_FONT, 16));
+
+        return prob;
+    }
+
     public static void startGame() throws Exception {
         // define random function
         randomFunction.getRandomCards();
-
-        myFrame.getContentPane().setBackground(new Color(26, 145, 85));
 
         JPanel round = createRoundPanel();
         myFrame.add(round);
@@ -82,11 +97,14 @@ public class PlayPage {
         JPanel buttonFrame = createButtonFrame();
         myFrame.add(buttonFrame);
 
-        myFrame.setVisible(true);
+        JPanel hand_prob = createPopUpPanel();
+        handProbFrame.add(hand_prob);
     }
 
     public static void resetStaticVariables() {
         // Reset each static variable to its initial state
+        myFrame = new MyFrame();
+        handProbFrame = new HandProb();
         round = null;
         roundText = null;
         p1_first_card = new JLabel();
@@ -98,10 +116,55 @@ public class PlayPage {
         third_card = new JLabel();
         fourth_card = new JLabel();
         fifth_card = new JLabel();
-        myFrame = new MyFrame();
         randomFunction = new draw_random();
         customFont = new Font("Tahoma", Font.BOLD, 42);
 
+        // Reset hands probabilities
+        prob_straight = new JLabel();
+        prob_fullhouse = new JLabel();
+        prob_flush = new JLabel();
+        prob_straightflush = new JLabel();
+        prob_royalflush = new JLabel();
+        prob_1pair = new JLabel();
+        prob_2pair = new JLabel();
+        prob_3ofakind = new JLabel();
+        prob_4ofakind = new JLabel();
+    }
+
+    private static JPanel createPopUpPanel() throws Exception {
+        JPanel popup = new JPanel(new BorderLayout());
+        popup.setBackground(null);
+        String[] cards_1 = randomFunction.card_1;
+
+        Map<String, Double> propRound1 = PokerProbabilityCalculator.calculateProbabilityOnString(
+                new String[]{}, cards_1, 100000, 2);
+        // Output the probabilities for each round
+        System.out.println("Round 1 Probability: " + propRound1);
+
+        prob_straight = add_prob_PopUp("Straight", propRound1.get("straight"));
+        prob_fullhouse = add_prob_PopUp("Full House", propRound1.get("full_house"));
+        prob_flush = add_prob_PopUp("Flush", propRound1.get("flush"));
+        prob_straightflush = add_prob_PopUp("Straight Flush", propRound1.get("straight_flush"));
+        prob_royalflush = add_prob_PopUp("Royal Flush", propRound1.get("royal_flush"));
+        prob_1pair = add_prob_PopUp("One Pair", propRound1.get("pair"));
+//        prob_2pair = add_prob_PopUp("Two Pair", propRound1.get("pair"));
+        prob_3ofakind = add_prob_PopUp("Three Of A Kind", propRound1.get("three_of_a_kind"));
+        prob_4ofakind = add_prob_PopUp("Four Of A Kind", propRound1.get("four_of_a_kind"));
+
+        Box box = Box.createVerticalBox();
+        box.add(prob_straight);
+        box.add(prob_fullhouse);
+        box.add(prob_flush);
+        box.add(prob_straightflush);
+        box.add(prob_royalflush);
+        box.add(prob_1pair);
+//        box.add(prob_2pair);
+        box.add(prob_3ofakind);
+        box.add(prob_4ofakind);
+        popup.add(box, BorderLayout.NORTH);
+
+        popup.setBounds(10, 10, 400, 400);;
+        return popup;
     }
 
     private static JPanel createRoundPanel() throws Exception {
@@ -242,48 +305,29 @@ public class PlayPage {
 
         // Get the cards of Computer
         String[] cards_1 = randomFunction.card_1;
+
+        // First round: empty known cards
+//        Map<String, Double> propRound1 = PokerProbabilityCalculator.calculateProbabilityOnString(
+//                new String[]{}, cards_1, 100000, 2);
+//        // Output the probabilities for each round
+//        System.out.println("Round 1 Probability: " + propRound1);
+//        System.out.println(propRound1.getClass());
+//
+//        String sth = String.valueOf(propRound1.get("straight"));
+//        System.out.println(sth);
+//        prob_straight = new JLabel("Straight: " + sth, JLabel.CENTER);
+//        prob_straight.setForeground(Color.BLACK);
+//        prob_straight.setFont(new Font("Tahoma", Font.TRUETYPE_FONT, 12));
+//        handProbFrame.add(prob_straight);
+
         String[] cards_2 = randomFunction.card_2;
         // Get the middle list
         String[] middle_cards = randomFunction.middle_list;
 
-        // First round: empty known cards
-        Map<String, Double> propRound1 = PokerProbabilityCalculator.calculateProbabilityOnString(
-                new String[]{}, cards_1, 3000000, 2);
-
-        // Second round: first 1 middle card
-        Map<String, Double> propRound2 = PokerProbabilityCalculator.calculateProbabilityOnString(
-                Arrays.copyOfRange(middle_cards, 0, 1), cards_1, 3000000, 2);
-
-        // Third round: first 2 middle cards
-        Map<String, Double> propRound3 = PokerProbabilityCalculator.calculateProbabilityOnString(
-                Arrays.copyOfRange(middle_cards, 0, 2), cards_1, 3000000, 2);
-
-        // Fourth round: first 3 middle cards
-        Map<String, Double> propRound4 = PokerProbabilityCalculator.calculateProbabilityOnString(
-                Arrays.copyOfRange(middle_cards, 0, 3), cards_1, 3000000, 2);
-
-        // Output the probabilities for each round
-        System.out.println("Round 1 Probability: " + propRound1);
-        System.out.println("Round 2 Probability: " + propRound2);
-        System.out.println("Round 3 Probability: " + propRound3);
-        System.out.println("Round 4 Probability: " + propRound4);
-
         String[] best_combination_1 = CardCombinationUtil.bestCombinationCards(cards_1, middle_cards);
         String[] best_combination_2 = CardCombinationUtil.bestCombinationCards(cards_2, middle_cards);
-
-
-
-        System.out.println("best_combination_1 = ");
-
-        for (int i = 0; i < best_combination_1.length; i++) {
-            System.out.print(best_combination_1[i] + " ");
-        }
-
-        System.out.println("best_combination_2 = ");
-
-        for (int j = 0; j < best_combination_2.length; j++) {
-            System.out.print(best_combination_2[j] + " ");
-        }
+        System.out.println("best_combination_1 = " + Arrays.toString(best_combination_1));
+        System.out.println("best_combination_2 = " + Arrays.toString(best_combination_2));
 
         get_card_infor best_hand1_infor = new get_card_infor(best_combination_1);
         String hand1_category = best_hand1_infor.get_category_String();
@@ -320,35 +364,46 @@ public class PlayPage {
 
         bet.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
                 // Check if the click count is less than the number of cards
                 if (clickCount[0] < middle_cards.length) {
                     // Use a switch statement to set the icon for the correct card
                     switch (clickCount[0]) {
                         case 0:
-                            MusicHandler.playMusic(suffleMusic);
-                            // Play music using Music handler function
-
+                            MusicHandler.playMusic(suffleMusic); // Play music using Music handler function
                             first_card.setIcon(add_image(middle_cards[0]));
                             second_card.setIcon(add_image(middle_cards[1]));
                             third_card.setIcon(add_image(middle_cards[2]));
                             roundText.setText("Round  2");
+                            // Second round: first 1 middle card
+                            Map<String, Double> propRound2 = PokerProbabilityCalculator.calculateProbabilityOnString(
+                                    Arrays.copyOfRange(middle_cards, 0, 1), cards_1, 100000, 2);
+                            System.out.println("Round 2 Probability: " + propRound2);
                             break;
+
                         case 1:
                             MusicHandler.playMusic(suffleMusic);
                             fourth_card.setIcon(add_image(middle_cards[3]));
                             roundText.setText("Round  3");
+                            // Third round: first 2 middle cards
+                            Map<String, Double> propRound3 = PokerProbabilityCalculator.calculateProbabilityOnString(
+                                    Arrays.copyOfRange(middle_cards, 0, 2), cards_1, 100000, 2);
+                            System.out.println("Round 3 Probability: " + propRound3);
                             break;
+
                         case 2:
                             MusicHandler.playMusic(suffleMusic);
                             fifth_card.setIcon(add_image(middle_cards[4]));
                             roundText.setText("Round  4");
                             bet.setVisible(false);
                             fold.setVisible(false);
+                            // Fourth round: first 3 middle cards
+                            Map<String, Double> propRound4 = PokerProbabilityCalculator.calculateProbabilityOnString(
+                                    Arrays.copyOfRange(middle_cards, 0, 3), cards_1, 100000, 2);
+                            System.out.println("Round 4 Probability: " + propRound4);
 
                             // Show up two cards of Computer
-                            MusicHandler.playMusic(suffleMusic);
-                            Timer timer_showing_Card = new Timer(2000, event -> {
+//                            MusicHandler.playMusic(suffleMusic);
+                            Timer timer_showing_Card = new Timer(5000, event -> {
                                 p2_first_card.setIcon(add_image(cards_2[0]));
                                 p2_second_card.setIcon(add_image(cards_2[1]));
                             });
@@ -356,8 +411,8 @@ public class PlayPage {
                             timer_showing_Card.setRepeats(false); // Ensure the timer only runs once
                             timer_showing_Card.start(); // Start the timer
 
-                            Timer timer1 = new Timer(7000, event -> {
-                                // SHowing results
+                            Timer timer1 = new Timer(10000, event -> {
+                                // Showing results
 
                                 // Disappear after
                                 fifth_card.setVisible(false);
@@ -377,10 +432,12 @@ public class PlayPage {
                                 showResult2.setOpaque(true);
 
                                 JLabel hand2_result = new JLabel(hand1_category.toUpperCase(), JLabel.CENTER);
+                                System.out.println("Player 1: " + hand1_category);
                                 hand2_result.setFont(new Font("Tahoma", Font.BOLD, 40));
                                 hand2_result.setForeground(new Color(243, 184, 184));
 
                                 JLabel hand1_result = new JLabel(hand2_category.toUpperCase(), JLabel.CENTER);
+                                System.out.println("Player 2: "  + hand2_category);
                                 hand1_result.setFont(new Font("Tahoma", Font.BOLD, 40));
                                 hand1_result.setForeground(new Color(243, 184, 184));
 
@@ -399,8 +456,8 @@ public class PlayPage {
                             // Frame of the result
 
                             // Delay by 2 seconds before jumping to the last screen
-                            Timer delayTimer = new Timer(4000, event -> {
-                                Timer timer2 = new Timer(8000, event2 -> {
+                            Timer delayTimer = new Timer(6000, event -> {
+                                Timer timer2 = new Timer(10000, event2 -> {
                                     myFrame.dispose();
                                     try {
                                         MusicHandler.playMusic(endingMusic);

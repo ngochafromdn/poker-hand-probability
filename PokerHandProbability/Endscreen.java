@@ -13,13 +13,12 @@ public class Endscreen extends JFrame {
     static String endMusic = "PokerHandProbability/Music/ending.wav";
 
     public static void displayResult(String word) throws Exception {
-
         // Clear previous components
         myFrame.getContentPane().removeAll();
         myFrame.revalidate();
         myFrame.repaint();
-
-        MusicHandler.playMusic(endMusic);
+//
+//        MusicHandler.playMusic(endMusic);
 
         myFrame.getContentPane().setBackground(new Color(26, 145, 85));
         // add Gameover frame

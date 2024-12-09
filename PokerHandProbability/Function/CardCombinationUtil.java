@@ -47,12 +47,12 @@ public class CardCombinationUtil {
             }
 
             get_card_infor bestCardInfo = new get_card_infor(bestCards);
-            System.out.println(bestCardInfo.get_category());
+//            System.out.println(bestCardInfo.get_category());
             get_card_infor currentCardInfo = new get_card_infor(currentCard);
-            System.out.println(currentCardInfo.get_category());
+//            System.out.println(currentCardInfo.get_category());
             // Print current card
 
-            System.out.println("Current card: " + Arrays.toString(currentCard));
+//            System.out.println("Current card: " + Arrays.toString(currentCard));
             int result = bestCardInfo.compare_to(currentCardInfo);
 
             if (result < 0) {

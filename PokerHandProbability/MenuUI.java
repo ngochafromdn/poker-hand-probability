@@ -14,13 +14,13 @@ public class MenuUI extends JFrame {
     public MenuUI(Menu game) {
         this.game = game;
 
+        this.getContentPane().setBackground(new Color(26, 145, 85));
         this.setTitle("Poker hand");
         this.setSize(1280, 800);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setLayout(null);
-        this.getContentPane().setBackground(Color.white);
 
         ImageIcon icon_image = new ImageIcon("PokerHandProbability/Background/icon.png"); // create an imageicon
         this.setIconImage(icon_image.getImage()); // change the default icon into new icon
@@ -36,7 +36,6 @@ public class MenuUI extends JFrame {
         menu_canvas = new PaintPanel(this, "menu.png");
         menu_canvas.setBounds(0,0,1280,800);
         menu_canvas.setOpaque(false); // allow orride the background image
-        
 
         startButton = new MyButton("START", 520, 450);
         startButton.addActionListener(game.aHandler);
@@ -73,7 +72,6 @@ public class MenuUI extends JFrame {
         guide_canvas = new PaintPanel(this, "guide.png");
         guide_canvas.setBounds(0,0,1280,800);
         guide_canvas.setOpaque(true); // allow orride the background image
-        
 
         backGuideButton = new MyButton("BACK", 70, 34 * 2 - 8);
         backGuideButton.setForeground(Color.WHITE);
