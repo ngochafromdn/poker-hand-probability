@@ -1,74 +1,101 @@
 package PokerHandProbability.Function;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Arrays;
 
-import java.util.*;
-import java.util.stream.Collectors;
 
 public class PokerProbabilityCalculator {
-
-    private static final Map<String, Integer> RANK_VALUES = Map.ofEntries(
-            Map.entry("2", 2), Map.entry("3", 3), Map.entry("4", 4), Map.entry("5", 5),
-            Map.entry("6", 6), Map.entry("7", 7), Map.entry("8", 8), Map.entry("9", 9),
-            Map.entry("10", 10), Map.entry("J", 11), Map.entry("Q", 12), Map.entry("K", 13),
-            Map.entry("A", 14)
-    );
-
-    // Kiểm tra Straight
-    public static boolean checkStraight(List<String> ranksInHand) {
-        try {
-            List<Integer> sortedRanks = new ArrayList<>();
-            for (String rank : ranksInHand) {
-                sortedRanks.add(RANK_VALUES.get(rank));
-            }
-            Collections.sort(sortedRanks);
-            for (int i = 0; i < sortedRanks.size() - 1; i++) {
-                if (sortedRanks.get(i) + 1 != sortedRanks.get(i + 1)) {
-                    return false;
-                }
-            }
-            return true;
-        } catch (Exception e) {
-            return false;
+    // Cập nhật xác suất khi có kết quả mới
+    public static void update_probability(String result, Map<String, Double> probabilities) {
+        switch (result) {
+            case "high_card":
+                probabilities.put("high_card", probabilities.get("high_card") + 1);
+                break;
+            case "pair":
+                probabilities.put("pair", probabilities.get("pair") + 1);
+                probabilities.put("two pair", probabilities.get("two pair") + 1);
+                break;
+            case "two pair":
+                probabilities.put("two pair", probabilities.get("two pair") + 1);
+                probabilities.put("pair", probabilities.get("pair") + 1);
+                break;
+            case "three_of_a_kind":
+                probabilities.put("three_of_a_kind", probabilities.get("three_of_a_kind") + 1);
+                probabilities.put("two pair", probabilities.get("two pair") + 1);
+                probabilities.put("pair", probabilities.get("pair") + 1);
+                break;
+            case "four_of_a_kind":
+                probabilities.put("four_of_a_kind", probabilities.get("four_of_a_kind") + 1);
+                probabilities.put("three_of_a_kind", probabilities.get("three_of_a_kind") + 1);
+                probabilities.put("two pair", probabilities.get("two pair") + 1);
+                probabilities.put("pair", probabilities.get("pair") + 1);
+                break;
+            case "flush":
+                probabilities.put("flush", probabilities.get("flush") + 1);
+                break;
+            case "full_house":
+                probabilities.put("full_house", probabilities.get("full_house") + 1);
+                probabilities.put("three_of_a_kind", probabilities.get("three_of_a_kind") + 1);
+                probabilities.put("pair", probabilities.get("pair") + 1);
+                break;
+            case "straight":
+                probabilities.put("straight", probabilities.get("straight") + 1);
+                break;
+            case "straight_flush":
+                probabilities.put("straight_flush", probabilities.get("straight_flush") + 1);
+                probabilities.put("flush", probabilities.get("flush") + 1);
+                probabilities.put("straight", probabilities.get("straight") + 1);
+                break;
+            case "royal_flush":
+                probabilities.put("royal_flush", probabilities.get("royal_flush") + 1);
+                probabilities.put("straight_flush", probabilities.get("straight_flush") + 1);
+                probabilities.put("flush", probabilities.get("flush") + 1);
+                probabilities.put("straight", probabilities.get("straight") + 1);
+                break;
+            default:
+                System.out.println("Unknown result: " + result);
+                break;
         }
     }
 
-    // Kiểm tra Flush (5 lá bài cùng chất)
-    public static boolean checkFlush(List<String> suitsInHand) {
-        Set<String> uniqueSuits = new HashSet<>(suitsInHand);
-        return uniqueSuits.size() == 1;
-    }
+    // Hàm làm simulation
+    public static void make_simulation(int num_of_random, int number_of_cases_simulation, String[] card_on_desk, String[] card_on_hand, Map<String, Double> probabilities) {
+        PokerGenerator generator = new PokerGenerator(); // Khởi tạo đối tượng PokerGenerator
 
-    // Kiểm tra Royal Flush (10, J, Q, K, A tất cả cùng một chất)
-    public static boolean checkRoyalFlush(List<String> ranksInHand, List<String> suitsInHand) {
-        List<String> royalRanks = Arrays.asList("10", "J", "Q", "K", "A");
-        return checkFlush(suitsInHand) && ranksInHand.containsAll(royalRanks);
-    }
+        for (int i = 0; i < number_of_cases_simulation; i++) {
+            // Gọi hàm generatePokerHand để lấy bộ bài mới
+            String[] new_card = generator.generatePokerHand(num_of_random, card_on_desk, card_on_hand);
 
-    // Kiểm tra Straight Flush
-    public static boolean checkStraightFlush(List<String> ranksInHand, List<String> suitsInHand) {
-        return checkStraight(ranksInHand) && checkFlush(suitsInHand);
-    }
+            // Tạo bộ bài kết hợp từ bài đã có trên bàn và bài mới (không bao gồm bài trên tay người chơi)
+            String[] combined_cards = new String[5];
 
-    public static Map<String, Double> calculateProbability(
-            List<String[]> knownCardsOnDeck, List<String[]> myFiveCards,
-            int numRandomCases, int decimalPlaces
-    ) {
-        List<String> ranks = Arrays.asList("2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A");
-        List<String> suits = Arrays.asList("H", "D", "C", "S");
+            // Đưa bài trên bàn vào mảng combined_cards
+            System.arraycopy(card_on_desk, 0, combined_cards, 0, 5- num_of_random);
 
-        Set<String[]> allCards = new HashSet<>();
-        for (String rank : ranks) {
-            for (String suit : suits) {
-                allCards.add(new String[]{rank, suit});
-            }
+            // Đưa các quân bài mới vào mảng combined_cards
+            System.arraycopy(new_card, 0, combined_cards, 5 - num_of_random, num_of_random);
+
+            // Tính toán sự kết hợp tốt nhất từ bộ bài kết hợp và bài trên tay người chơi
+            String[] best_combination = CardCombinationUtil.bestCombinationCards(card_on_hand, combined_cards);
+
+            // In ra kết quả (nếu cần)
+            System.out.println("Best combination: " + Arrays.toString(best_combination));
+
+
+            // Tạo đối tượng GetCardInfo và lấy ket qua
+            get_card_infor newCardInfo = new get_card_infor(best_combination);
+            String result = newCardInfo.get_category_String();
+
+            // Cập nhật xác suất
+            update_probability(result, probabilities);
         }
+    }
 
-        Set<String[]> knownCardsSet = new HashSet<>(knownCardsOnDeck);
-        knownCardsSet.addAll(myFiveCards);
-        Set<String[]> remainingCards = new HashSet<>(allCards);
-        remainingCards.removeAll(knownCardsSet);
-
+    // Tính xác suất trên chuỗi kết quả
+    public static Map<String, Double> calculateProbabilityOnString(int num_of_random, int number_of_cases_simulation, String[] card_on_desk, String[] card_on_hand) {
         Map<String, Double> probabilities = new HashMap<>();
         probabilities.put("pair", 0.0);
+        probabilities.put("two pair", 0.0);
         probabilities.put("three_of_a_kind", 0.0);
         probabilities.put("four_of_a_kind", 0.0);
         probabilities.put("flush", 0.0);
@@ -76,91 +103,37 @@ public class PokerProbabilityCalculator {
         probabilities.put("straight", 0.0);
         probabilities.put("straight_flush", 0.0);
         probabilities.put("royal_flush", 0.0);
+        probabilities.put("high_card", 0.0);
 
-        List<String[]> remainingCardsList = new ArrayList<>(remainingCards);
-        Random random = new Random();
+        // Chạy simulation để cập nhật xác suất
+        make_simulation(num_of_random, number_of_cases_simulation, card_on_desk, card_on_hand, probabilities);
 
-        for (int i = 0; i < numRandomCases; i++) {
-            Collections.shuffle(remainingCardsList, random);
-            List<String[]> hand = remainingCardsList.subList(0, 5);
-            List<String[]> totalHand = new ArrayList<>(myFiveCards);
-            totalHand.addAll(hand);
-
-            List<String> ranksInHand = new ArrayList<>();
-            List<String> suitsInHand = new ArrayList<>();
-            for (String[] card : totalHand) {
-                ranksInHand.add(card[0]);
-                suitsInHand.add(card[1]);
-            }
-
-            Map<String, Long> rankCounts = ranksInHand.stream()
-                    .collect(Collectors.groupingBy(r -> r, Collectors.counting()));
-            Map<String, Long> suitCounts = suitsInHand.stream()
-                    .collect(Collectors.groupingBy(s -> s, Collectors.counting()));
-
-            // Kiểm tra Royal Flush, Straight Flush, và các sự kiện khác
-            if (checkRoyalFlush(ranksInHand, suitsInHand)) {
-                probabilities.put("royal_flush", probabilities.get("royal_flush") + 1);
-            } else if (checkStraightFlush(ranksInHand, suitsInHand)) {
-                probabilities.put("straight_flush", probabilities.get("straight_flush") + 1);
-            }
-
-            if (checkStraight(ranksInHand)) {
-                probabilities.put("straight", probabilities.get("straight") + 1);
-            }
-            if (checkFlush(suitsInHand)) {
-                probabilities.put("flush", probabilities.get("flush") + 1);
-            }
-            if (rankCounts.containsValue(4L)) {
-                probabilities.put("four_of_a_kind", probabilities.get("four_of_a_kind") + 1);
-            }
-            if (rankCounts.containsValue(3L) && rankCounts.containsValue(2L)) {
-                probabilities.put("full_house", probabilities.get("full_house") + 1);
-            }
-            if (rankCounts.containsValue(3L)) {
-                probabilities.put("three_of_a_kind", probabilities.get("three_of_a_kind") + 1);
-            }
-            if (rankCounts.containsValue(2L)) {
-                probabilities.put("pair", probabilities.get("pair") + 1);
-            }
-        }
-
-        // Tính xác suất
-        for (String key : probabilities.keySet()) {
-            probabilities.put(key, Math.round((probabilities.get(key) / numRandomCases) * Math.pow(1000, decimalPlaces)) / Math.pow(1000, decimalPlaces));
+        // Tính toán xác suất từ số lần xuất hiện
+        for (Map.Entry<String, Double> entry : probabilities.entrySet()) {
+            probabilities.put(entry.getKey(), entry.getValue() / number_of_cases_simulation);
         }
 
         return probabilities;
     }
 
-    // Hàm tính xác suất từ chuỗi các lá bài
-    public static Map<String, Double> calculateProbabilityOnString(
-            String[] knownCardsOnDeck, String[] myFiveCards,
-            int numRandomCases, int decimalPlaces
-    ) {
-        // Dùng parseCards để chuyển đổi chuỗi các lá bài thành các cặp số và chất
-        List<String[]> knownCardsParsed = CardParser.parseCards(knownCardsOnDeck);
-        List<String[]> myFiveCardsParsed = CardParser.parseCards(myFiveCards);
-
-        return calculateProbability(knownCardsParsed, myFiveCardsParsed, numRandomCases, decimalPlaces);
+    // In ra các xác suất
+    public void printProbabilities(Map<String, Double> probabilities) {
+        for (Map.Entry<String, Double> entry : probabilities.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
     }
 
     public static void main(String[] args) {
-        List<String[]> knownCardsOnDeck = List.of(
-                new String[]{"A", "hearts"},
-                new String[]{"K", "spades"},
-                new String[]{"Q", "diamonds"}
-        );
+        PokerProbabilityCalculator calculator = new PokerProbabilityCalculator();
 
-        List<String[]> myFiveCards = List.of(
-                new String[]{"9", "S"},
-                new String[]{"A", "S"},
-                new String[]{"10", "S"},
-                new String[]{"9", "S"},
-                new String[]{"8", "S"}
-        );
+        // Các quân bài đã có trên bộ bài và trên tay người chơi
+        String[] cardOnDesk = { "2H", "3D", "KC" };
+        String[] cardOnHand = { "10S", "JH" };
 
-        Map<String, Double> probabilities = calculateProbability(knownCardsOnDeck, myFiveCards, 3000000, 2);
-        System.out.println(probabilities);
+        // Thực hiện simulation 100 lần
+        Map<String, Double> probabilities = calculator.calculateProbabilityOnString(5, 100, cardOnDesk, cardOnHand);
+
+        // In ra các xác suất sau khi simulation
+        calculator.printProbabilities(probabilities);
     }
 }

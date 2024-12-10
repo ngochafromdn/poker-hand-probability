@@ -99,37 +99,44 @@ public class get_card_infor {
     }
 
     public boolean isStraight() {
-        isStraight = card_rank[4];
-        for (int i = 1; i < card_rank.length; i++) {
-            if (card_rank[i].equals("A")) {
-                if ((card_rank[0].equals("2")) && (card_rank[1].equals("3")) || (card_rank[2].equals("4"))
-                        || (card_rank[3].equals("5"))) {
-                    return true;
-                } else if (card_rank[i - 1].equals("@") || card_rank[i - 1].equals("A")) {
-                } else {
-                    return false;
-                }
-            } else if (card_rank[i].matches("[0-9]") || card_rank[i].equals("@")) {
-                if (card_rank[i].equals("@")) {
-                    if (card_rank[i - 1].equals("9")) {
-                    } else {
-                        return false;
-                    }
-                } else if (card_rank[i].matches("[0-9]")) {
-                    if (Integer.parseInt(card_rank[i]) - Integer.parseInt(card_rank[i - 1]) != 1) {
-                        return false;
-                    }
-                }
-            } else if (card_rank[i].equals("Q") || card_rank[i].equals("J") || card_rank[i].equals("K")) {
-                if ((card_rank[i - 1].equals("@") || card_rank[i - 1].equals("J") || card_rank[i - 1].equals("Q")
-                        || card_rank[i - 1].equals("K")) && (!card_rank[i].equals(card_rank[i - 1]))) {
-                } else {
-                    return false;
-                }
+        // convert value to number
+        int[] cardValues = new int[5];
+        for (int i = 0; i < card_rank.length; i++) {
+            switch (card_rank[i]) {
+                case "2": cardValues[i] = 2; break;
+                case "3": cardValues[i] = 3; break;
+                case "4": cardValues[i] = 4; break;
+                case "5": cardValues[i] = 5; break;
+                case "6": cardValues[i] = 6; break;
+                case "7": cardValues[i] = 7; break;
+                case "8": cardValues[i] = 8; break;
+                case "9": cardValues[i] = 9; break;
+                case "@": cardValues[i] = 10; break;
+                case "J": cardValues[i] = 11; break;
+                case "Q": cardValues[i] = 12; break;
+                case "K": cardValues[i] = 13; break;
+                case "A": cardValues[i] = 14; break; // A có giá trị cao nhất
             }
         }
+
+        // ordering values
+        Arrays.sort(cardValues);
+
+        // specal case
+        if (cardValues[0] == 2 && cardValues[1] == 3 && cardValues[2] == 4 && cardValues[3] == 5 && cardValues[4] == 14) {
+            return true; // A được tính là 1
+        }
+
+        // check value sequence
+        for (int i = 1; i < cardValues.length; i++) {
+            if (cardValues[i] - cardValues[i - 1] != 1) {
+                return false;
+            }
+        }
+
         return true;
     }
+
 
     public boolean isStraightFlush() {
         return isFlush() && isStraight();
@@ -252,23 +259,23 @@ public class get_card_infor {
         int number = this.get_category();
         switch (number) {
             case 9:
-                return "Straight Flush";
+                return "straight_flush";
             case 8:
-                return "Four of a Kind";
+                return "four_of_a_kind";
             case 7:
-                return "Full House";
+                return "full_house";
             case 6:
-                return "Flush";
+                return "flush";
             case 5:
-                return "Straight";
+                return "straight";
             case 4:
-                return "Three of a Kind";
+                return "three_of_a_kind";
             case 3:
-                return "Two Pair";
+                return "two_pair";
             case 2:
-                return "One Pair";
+                return "pair";
             default:
-                return "High Card";
+                return "high_card";
         }
     }
 
