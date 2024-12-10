@@ -138,7 +138,7 @@ public class PlayPage {
 
         // First round: empty known cards
         Map<String, Double> propRound1 = PokerProbabilityCalculator.calculateProbabilityOnString(
-                1,2000, new String[]{}, cards_1);
+                5,30000, new String[]{}, cards_1);
         // Output the probabilities for each round
         System.out.println("Round 1 Probability: " + propRound1);
 
@@ -148,20 +148,20 @@ public class PlayPage {
         prob_straightflush = add_prob_PopUp("Straight Flush", propRound1.get("straight_flush"));
         prob_royalflush = add_prob_PopUp("Royal Flush", propRound1.get("royal_flush"));
         prob_1pair = add_prob_PopUp("One Pair", propRound1.get("pair"));
-//        prob_2pair = add_prob_PopUp("Two Pair", propRound1.get("pair"));
+        prob_2pair = add_prob_PopUp("Two Pair", propRound1.get("two_pair"));
         prob_3ofakind = add_prob_PopUp("Three of A Kind", propRound1.get("three_of_a_kind"));
         prob_4ofakind = add_prob_PopUp("Four of A Kind", propRound1.get("four_of_a_kind"));
 
         Box box = Box.createVerticalBox();
         box.add(prob_straight);
         box.add(prob_fullhouse);
+        box.add(prob_1pair);
+        box.add(prob_2pair);
+        box.add(prob_3ofakind);
+        box.add(prob_4ofakind);
         box.add(prob_flush);
         box.add(prob_straightflush);
         box.add(prob_royalflush);
-        box.add(prob_1pair);
-//        box.add(prob_2pair);
-        box.add(prob_3ofakind);
-        box.add(prob_4ofakind);
         popup.add(box, BorderLayout.NORTH);
 
         popup.setBounds(10, 10, 400, 400);;
@@ -360,7 +360,7 @@ public class PlayPage {
                             roundText.setText("Round  2");
 
                             // Second round: first 1 middle card
-                            Map<String, Double> propRound2 = PokerProbabilityCalculator.calculateProbabilityOnString(3, 2000,
+                            Map<String, Double> propRound2 = PokerProbabilityCalculator.calculateProbabilityOnString(4, 10000,
                                     Arrays.copyOfRange(middle_cards, 0, 1), cards_1);
                             System.out.println("Round 2 Probability: " + propRound2);
 
@@ -371,7 +371,7 @@ public class PlayPage {
                             prob_straightflush.setText("Straight Flush: " + propRound2.get("straight_flush"));
                             prob_royalflush.setText("Royal Flush: " + propRound2.get("royal_flush"));
                             prob_1pair.setText("One Pair: " + propRound2.get("pair"));
-//                            prob_2pair.setText("Two pair: " + propRound2.get("pair"));
+                            prob_2pair.setText("Two pair: " + propRound2.get("two_pair"));
                             prob_3ofakind.setText("Three of A Kind: " + propRound2.get("three_of_a_kind"));
                             prob_4ofakind.setText("Four of A Kind: " + propRound2.get("four_of_a_kind"));
                             break;
@@ -382,7 +382,7 @@ public class PlayPage {
                             roundText.setText("Round  3");
 
                             // Third round: first 2 middle cards
-                            Map<String, Double> propRound3 = PokerProbabilityCalculator.calculateProbabilityOnString(3, 2000,
+                            Map<String, Double> propRound3 = PokerProbabilityCalculator.calculateProbabilityOnString(3, 10000,
                                     Arrays.copyOfRange(middle_cards, 0, 2), cards_1);
                             System.out.println("Round 3 Probability: " + propRound3);
 
@@ -393,7 +393,7 @@ public class PlayPage {
                             prob_straightflush.setText("Straight Flush: " + propRound3.get("straight_flush"));
                             prob_royalflush.setText("Royal Flush: " + propRound3.get("royal_flush"));
                             prob_1pair.setText("One Pair: " + propRound3.get("pair"));
-//                            prob_2pair.setText("Two pair: " + propRound3.get("pair"));
+                            prob_2pair.setText("Two pair: " + propRound3.get("two_pair"));
                             prob_3ofakind.setText("Three of A Kind: " + propRound3.get("three_of_a_kind"));
                             prob_4ofakind.setText("Four of A Kind: " + propRound3.get("four_of_a_kind"));
                             break;
@@ -406,7 +406,7 @@ public class PlayPage {
                             fold.setVisible(false);
 
                             // Fourth round: first 3 middle cards
-                            Map<String, Double> propRound4 = PokerProbabilityCalculator.calculateProbabilityOnString(2, 2000,
+                            Map<String, Double> propRound4 = PokerProbabilityCalculator.calculateProbabilityOnString(2, 3000000,
                                     Arrays.copyOfRange(middle_cards, 0, 3), cards_1);
                             System.out.println("Round 4 Probability: " + propRound4);
 
@@ -417,7 +417,7 @@ public class PlayPage {
                             prob_straightflush.setText("Straight Flush: " + propRound4.get("straight_flush"));
                             prob_royalflush.setText("Royal Flush: " + propRound4.get("royal_flush"));
                             prob_1pair.setText("One Pair: " + propRound4.get("pair"));
-//                            prob_2pair.setText("Two pair: " + propRound4.get("pair"));
+                            prob_2pair.setText("Two pair: " + propRound4.get("two_pair"));
                             prob_3ofakind.setText("Three of A Kind: " + propRound4.get("three_of_a_kind"));
                             prob_4ofakind.setText("Four of A Kind: " + propRound4.get("four_of_a_kind"));
 

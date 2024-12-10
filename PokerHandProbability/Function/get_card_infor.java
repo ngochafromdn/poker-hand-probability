@@ -10,7 +10,7 @@ public class get_card_infor {
     private String[] card_rank;
     private String[] card_suit;
     private String isFlush;
-    private String[] isFlush_sequence_rank;
+    private String[] isFlush_sequence_rank = new String[5] ;
     private String isStraight;
     private String isStraightFlush;
     private String isFourOfAKind;
