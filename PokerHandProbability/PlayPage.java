@@ -404,7 +404,7 @@ public class PlayPage {
                             fold.setVisible(false);
 
                             // Fourth round: first 3 middle cards
-                            Map<String, Double> propRound4 = PokerProbabilityCalculator.calculateProbabilityOnString(2, 3000000,
+                            Map<String, Double> propRound4 = PokerProbabilityCalculator.calculateProbabilityOnString(2, 30000,
                                     Arrays.copyOfRange(middle_cards, 0, 3), cards_1)[0];
                             System.out.println("Round 4 Probability: " + propRound4);
 
