@@ -48,15 +48,6 @@ public class PokerGenerator {
     }
 
     public static void main(String[] args) {
-        String[] handOnDeck = { "2H", "3D", "KC" }; // Các quân bài đã có trên bộ bài
-        String[] handOnHand = { "10S", "JH" }; // Các quân bài đã có trên tay người chơi
 
-        int k = 5; // Số quân bài muốn tạo
-        String[] pokerHand = generatePokerHand(k, handOnDeck, handOnHand);
-
-        // In kết quả
-        for (String card : pokerHand) {
-            System.out.print(card + " ");
-        }
     }
 }

@@ -75,6 +75,7 @@ public class get_card_infor {
 
     private String[] getCardSuit() {
         String[] cardSuit = new String[5];
+
         for (int i = 0; i < cards.length; i++) {
             if (cards[i].substring(0, 2).equals("10")) {
                 cardSuit[i] = cards[i].substring(2, 3);
@@ -82,6 +83,7 @@ public class get_card_infor {
                 cardSuit[i] = cards[i].substring(1, 2);
             }
         }
+
         return cardSuit;
     }
 
@@ -91,7 +93,6 @@ public class get_card_infor {
                 return false;
             }
         }
-        System.out.println(Arrays.toString(card_suit));
         for (int j = 3; j >= 0; j--) {
             isFlush_sequence_rank[j] = card_rank[j];
         }

@@ -138,7 +138,7 @@ public class PlayPage {
 
         // First round: empty known cards
         Map<String, Double> propRound1 = PokerProbabilityCalculator.calculateProbabilityOnString(
-                5,30000, new String[]{}, cards_1);
+                5,30000, new String[]{}, cards_1)[0];
         // Output the probabilities for each round
         System.out.println("Round 1 Probability: " + propRound1);
 
@@ -311,8 +311,6 @@ public class PlayPage {
 
         String[] best_combination_1 = CardCombinationUtil.bestCombinationCards(cards_1, middle_cards);
         String[] best_combination_2 = CardCombinationUtil.bestCombinationCards(cards_2, middle_cards);
-        System.out.println("best_combination_1 = " + Arrays.toString(best_combination_1));
-        System.out.println("best_combination_2 = " + Arrays.toString(best_combination_2));
 
         get_card_infor best_hand1_infor = new get_card_infor(best_combination_1);
         String hand1_category = best_hand1_infor.get_category_String();
@@ -361,7 +359,7 @@ public class PlayPage {
 
                             // Second round: first 1 middle card
                             Map<String, Double> propRound2 = PokerProbabilityCalculator.calculateProbabilityOnString(4, 10000,
-                                    Arrays.copyOfRange(middle_cards, 0, 1), cards_1);
+                                    Arrays.copyOfRange(middle_cards, 0, 1), cards_1)[0];
                             System.out.println("Round 2 Probability: " + propRound2);
 
                             // Update probabilities
@@ -383,7 +381,7 @@ public class PlayPage {
 
                             // Third round: first 2 middle cards
                             Map<String, Double> propRound3 = PokerProbabilityCalculator.calculateProbabilityOnString(3, 10000,
-                                    Arrays.copyOfRange(middle_cards, 0, 2), cards_1);
+                                    Arrays.copyOfRange(middle_cards, 0, 2), cards_1)[0];
                             System.out.println("Round 3 Probability: " + propRound3);
 
                             // Update probabilities
@@ -407,7 +405,7 @@ public class PlayPage {
 
                             // Fourth round: first 3 middle cards
                             Map<String, Double> propRound4 = PokerProbabilityCalculator.calculateProbabilityOnString(2, 3000000,
-                                    Arrays.copyOfRange(middle_cards, 0, 3), cards_1);
+                                    Arrays.copyOfRange(middle_cards, 0, 3), cards_1)[0];
                             System.out.println("Round 4 Probability: " + propRound4);
 
                             // Update probabilities
