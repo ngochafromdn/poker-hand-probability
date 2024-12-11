@@ -43,6 +43,7 @@ public class PlayPage {
     static MyFrame myFrame;
     static HandProb handProbFrame;
 
+    // probabilities of player 1
     static JLabel prob_straight;
     static JLabel prob_fullhouse;
     static JLabel prob_flush;
@@ -52,6 +53,17 @@ public class PlayPage {
     static JLabel prob_2pair;
     static JLabel prob_3ofakind;
     static JLabel prob_4ofakind;
+
+    // probabilities of player 2
+    static JLabel prob_straight_p2;
+    static JLabel prob_fullhouse_p2;
+    static JLabel prob_flush_p2;
+    static JLabel prob_straightflush_p2;
+    static JLabel prob_royalflush_p2;
+    static JLabel prob_1pair_p2;
+    static JLabel prob_2pair_p2;
+    static JLabel prob_3ofakind_p2;
+    static JLabel prob_4ofakind_p2;
 
     // call random funtion
     static draw_random randomFunction;
@@ -119,7 +131,7 @@ public class PlayPage {
         randomFunction = new draw_random();
         customFont = new Font("Tahoma", Font.BOLD, 42);
 
-        // Reset hands probabilities
+        // Reset hands probabilities of player 1
         prob_straight = new JLabel();
         prob_fullhouse = new JLabel();
         prob_flush = new JLabel();
@@ -129,18 +141,34 @@ public class PlayPage {
         prob_2pair = new JLabel();
         prob_3ofakind = new JLabel();
         prob_4ofakind = new JLabel();
+
+        // Reset hands probabilities of player 2
+        prob_straight_p2 = new JLabel();
+        prob_fullhouse_p2 = new JLabel();
+        prob_flush_p2 = new JLabel();
+        prob_straightflush_p2 = new JLabel();
+        prob_royalflush_p2 = new JLabel();
+        prob_1pair_p2 = new JLabel();
+        prob_2pair_p2 = new JLabel();
+        prob_3ofakind_p2 = new JLabel();
+        prob_4ofakind_p2 = new JLabel();
     }
 
     private static JPanel createPopUpPanel() throws Exception {
         JPanel popup = new JPanel(new BorderLayout());
         popup.setBackground(null);
         String[] cards_1 = randomFunction.card_1;
+        System.out.println(Arrays.toString(cards_1));
 
         // First round: empty known cards
         Map<String, Double> propRound1 = PokerProbabilityCalculator.calculateProbabilityOnString(
                 5,30000, new String[]{}, cards_1)[0];
-        // Output the probabilities for each round
-        System.out.println("Round 1 Probability: " + propRound1);
+        // Output the probabilities for each round of player 1
+        System.out.println("Player 1 - Round 1 Probability: " + propRound1);
+
+        JLabel player_1 = new JLabel("Player 1", JLabel.LEFT);
+        player_1.setForeground(Color.BLACK);
+        player_1.setFont(new Font("Tahoma", Font.BOLD, 20));
 
         prob_straight = add_prob_PopUp("Straight", propRound1.get("straight"));
         prob_fullhouse = add_prob_PopUp("Full House", propRound1.get("full_house"));
@@ -152,7 +180,28 @@ public class PlayPage {
         prob_3ofakind = add_prob_PopUp("Three of A Kind", propRound1.get("three_of_a_kind"));
         prob_4ofakind = add_prob_PopUp("Four of A Kind", propRound1.get("four_of_a_kind"));
 
+        // Player 2
+        Map<String, Double> propRound1_player2 = PokerProbabilityCalculator.calculateProbabilityOnString(
+                5,30000, new String[]{}, cards_1)[1];
+        // Output the probabilities for each round of player 2
+        System.out.println("Player 2 - Round 1 Probability: " + propRound1_player2);
+
+        JLabel player_2 = new JLabel("Player 2", JLabel.LEFT);
+        player_2.setForeground(Color.BLACK);
+        player_2.setFont(new Font("Tahoma", Font.BOLD, 20));
+
+        prob_straight_p2 = add_prob_PopUp("Straight", propRound1_player2.get("straight"));
+        prob_fullhouse_p2 = add_prob_PopUp("Full House", propRound1_player2.get("full_house"));
+        prob_flush_p2 = add_prob_PopUp("Flush", propRound1_player2.get("flush"));
+        prob_straightflush_p2 = add_prob_PopUp("Straight Flush", propRound1_player2.get("straight_flush"));
+        prob_royalflush_p2 = add_prob_PopUp("Royal Flush", propRound1_player2.get("royal_flush"));
+        prob_1pair_p2 = add_prob_PopUp("One Pair", propRound1_player2.get("pair"));
+        prob_2pair_p2 = add_prob_PopUp("Two Pair", propRound1_player2.get("two_pair"));
+        prob_3ofakind_p2 = add_prob_PopUp("Three of A Kind", propRound1_player2.get("three_of_a_kind"));
+        prob_4ofakind_p2 = add_prob_PopUp("Four of A Kind", propRound1_player2.get("four_of_a_kind"));
+
         Box box = Box.createVerticalBox();
+        box.add(player_1);
         box.add(prob_straight);
         box.add(prob_fullhouse);
         box.add(prob_1pair);
@@ -162,9 +211,23 @@ public class PlayPage {
         box.add(prob_flush);
         box.add(prob_straightflush);
         box.add(prob_royalflush);
+
+        box.add(Box.createVerticalStrut(30)); // Add a space between prob of player 1 and 2
+
+        box.add(player_2);
+        box.add(prob_straight_p2);
+        box.add(prob_fullhouse_p2);
+        box.add(prob_1pair_p2);
+        box.add(prob_2pair_p2);
+        box.add(prob_3ofakind_p2);
+        box.add(prob_4ofakind_p2);
+        box.add(prob_flush_p2);
+        box.add(prob_straightflush_p2);
+        box.add(prob_royalflush_p2);
+
         popup.add(box, BorderLayout.NORTH);
 
-        popup.setBounds(10, 10, 400, 400);;
+        popup.setBounds(10, 10, 400, 800);;
         return popup;
     }
 
@@ -305,6 +368,7 @@ public class PlayPage {
         // Define the function for BET button
         // Get the cards of Computer
         String[] cards_1 = randomFunction.card_1;
+        System.out.println(Arrays.toString(cards_1));
         String[] cards_2 = randomFunction.card_2;
         // Get the middle list
         String[] middle_cards = randomFunction.middle_list;
@@ -334,6 +398,7 @@ public class PlayPage {
         fold.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // dispose the screen
+                handProbFrame.dispose();
                 myFrame.dispose();
                 // show the GAME OVER page
                 try {
@@ -358,9 +423,10 @@ public class PlayPage {
                             roundText.setText("Round  2");
 
                             // Second round: first 1 middle card
+                            // Player 1
                             Map<String, Double> propRound2 = PokerProbabilityCalculator.calculateProbabilityOnString(4, 10000,
                                     Arrays.copyOfRange(middle_cards, 0, 1), cards_1)[0];
-                            System.out.println("Round 2 Probability: " + propRound2);
+                            System.out.println("Player 1 - Round 2 Probability: " + propRound2);
 
                             // Update probabilities
                             prob_straight.setText("Straight: " + propRound2.get("straight"));
@@ -372,6 +438,22 @@ public class PlayPage {
                             prob_2pair.setText("Two pair: " + propRound2.get("two_pair"));
                             prob_3ofakind.setText("Three of A Kind: " + propRound2.get("three_of_a_kind"));
                             prob_4ofakind.setText("Four of A Kind: " + propRound2.get("four_of_a_kind"));
+
+                            //Player 2
+                            Map<String, Double> propRound2_player2 = PokerProbabilityCalculator.calculateProbabilityOnString(4, 10000,
+                                    Arrays.copyOfRange(middle_cards, 0, 1), cards_1)[1];
+                            System.out.println("Player 2 - Round 2 Probability: " + propRound2_player2);
+
+                            // Update probabilities
+                            prob_straight_p2.setText("Straight: " + propRound2_player2.get("straight"));
+                            prob_fullhouse_p2.setText("Full House: " + propRound2_player2.get("full_house"));
+                            prob_flush_p2.setText("Flush: " + propRound2_player2.get("flush"));
+                            prob_straightflush_p2.setText("Straight Flush: " + propRound2_player2.get("straight_flush"));
+                            prob_royalflush_p2.setText("Royal Flush: " + propRound2_player2.get("royal_flush"));
+                            prob_1pair_p2.setText("One Pair: " + propRound2_player2.get("pair"));
+                            prob_2pair_p2.setText("Two pair: " + propRound2_player2.get("two_pair"));
+                            prob_3ofakind_p2.setText("Three of A Kind: " + propRound2_player2.get("three_of_a_kind"));
+                            prob_4ofakind_p2.setText("Four of A Kind: " + propRound2_player2.get("four_of_a_kind"));
                             break;
 
                         case 1:
@@ -380,9 +462,10 @@ public class PlayPage {
                             roundText.setText("Round  3");
 
                             // Third round: first 2 middle cards
+                            // Player 1
                             Map<String, Double> propRound3 = PokerProbabilityCalculator.calculateProbabilityOnString(3, 10000,
                                     Arrays.copyOfRange(middle_cards, 0, 2), cards_1)[0];
-                            System.out.println("Round 3 Probability: " + propRound3);
+                            System.out.println("Player 1 - Round 3 Probability: " + propRound3);
 
                             // Update probabilities
                             prob_straight.setText("Straight: " + propRound3.get("straight"));
@@ -394,6 +477,22 @@ public class PlayPage {
                             prob_2pair.setText("Two pair: " + propRound3.get("two_pair"));
                             prob_3ofakind.setText("Three of A Kind: " + propRound3.get("three_of_a_kind"));
                             prob_4ofakind.setText("Four of A Kind: " + propRound3.get("four_of_a_kind"));
+
+                            //Player 2
+                            Map<String, Double> propRound3_player2 = PokerProbabilityCalculator.calculateProbabilityOnString(4, 10000,
+                                    Arrays.copyOfRange(middle_cards, 0, 1), cards_1)[1];
+                            System.out.println("Player 2 - Round 2 Probability: " + propRound3_player2);
+
+                            // Update probabilities
+                            prob_straight_p2.setText("Straight: " + propRound3_player2.get("straight"));
+                            prob_fullhouse_p2.setText("Full House: " + propRound3_player2.get("full_house"));
+                            prob_flush_p2.setText("Flush: " + propRound3_player2.get("flush"));
+                            prob_straightflush_p2.setText("Straight Flush: " + propRound3_player2.get("straight_flush"));
+                            prob_royalflush_p2.setText("Royal Flush: " + propRound3_player2.get("royal_flush"));
+                            prob_1pair_p2.setText("One Pair: " + propRound3_player2.get("pair"));
+                            prob_2pair_p2.setText("Two pair: " + propRound3_player2.get("two_pair"));
+                            prob_3ofakind_p2.setText("Three of A Kind: " + propRound3_player2.get("three_of_a_kind"));
+                            prob_4ofakind_p2.setText("Four of A Kind: " + propRound3_player2.get("four_of_a_kind"));
                             break;
 
                         case 2:
@@ -406,7 +505,7 @@ public class PlayPage {
                             // Fourth round: first 3 middle cards
                             Map<String, Double> propRound4 = PokerProbabilityCalculator.calculateProbabilityOnString(2, 30000,
                                     Arrays.copyOfRange(middle_cards, 0, 3), cards_1)[0];
-                            System.out.println("Round 4 Probability: " + propRound4);
+                            System.out.println("Player 1 - Round 4 Probability: " + propRound4);
 
                             // Update probabilities
                             prob_straight.setText("Straight: " + propRound4.get("straight"));
@@ -418,6 +517,22 @@ public class PlayPage {
                             prob_2pair.setText("Two pair: " + propRound4.get("two_pair"));
                             prob_3ofakind.setText("Three of A Kind: " + propRound4.get("three_of_a_kind"));
                             prob_4ofakind.setText("Four of A Kind: " + propRound4.get("four_of_a_kind"));
+
+                            //Player 2
+                            Map<String, Double> propRound4_player2 = PokerProbabilityCalculator.calculateProbabilityOnString(4, 10000,
+                                    Arrays.copyOfRange(middle_cards, 0, 1), cards_1)[1];
+                            System.out.println("Player 2 - Round 2 Probability: " + propRound4_player2);
+
+                            // Update probabilities
+                            prob_straight_p2.setText("Straight: " + propRound4_player2.get("straight"));
+                            prob_fullhouse_p2.setText("Full House: " + propRound4_player2.get("full_house"));
+                            prob_flush_p2.setText("Flush: " + propRound4_player2.get("flush"));
+                            prob_straightflush_p2.setText("Straight Flush: " + propRound4_player2.get("straight_flush"));
+                            prob_royalflush_p2.setText("Royal Flush: " + propRound4_player2.get("royal_flush"));
+                            prob_1pair_p2.setText("One Pair: " + propRound4_player2.get("pair"));
+                            prob_2pair_p2.setText("Two pair: " + propRound4_player2.get("two_pair"));
+                            prob_3ofakind_p2.setText("Three of A Kind: " + propRound4_player2.get("three_of_a_kind"));
+                            prob_4ofakind_p2.setText("Four of A Kind: " + propRound4_player2.get("four_of_a_kind"));
 
                             // Show up two cards of Computer
                             Timer timer_showing_Card = new Timer(3000, event -> {
@@ -460,10 +575,10 @@ public class PlayPage {
                                 showResult1.add(hand1_result);
                                 showResult2.add(hand2_result);
 
+                                handProbFrame.dispose();
                                 myFrame.add(showResult1);
                                 myFrame.add(showResult2);
                                 MusicHandler.playMusic(endingMusic);
-                                handProbFrame.dispose();
                             });
 
                             timer1.setRepeats(false);
