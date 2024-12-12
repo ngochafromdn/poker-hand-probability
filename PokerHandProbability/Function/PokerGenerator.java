@@ -6,6 +6,8 @@ import java.security.SecureRandom;
 
 import java.util.Random;
 
+// Generate bộ bài random, đặc biệt dùng cho simulation
+
 public class PokerGenerator {
     private static final String[] SUIT = { "H", "D", "C", "S" };
     private static final String[] RANK = { "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A" };

@@ -2,6 +2,8 @@ package PokerHandProbability.Function;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+// Tạo lá random cho mỗi ng chơi
 public class draw_random {
     /** The rank symbols. */
     public static final String[] RANK_SYMBOLS = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};

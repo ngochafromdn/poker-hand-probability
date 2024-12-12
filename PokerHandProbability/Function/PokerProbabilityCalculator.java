@@ -4,6 +4,7 @@ import java.util.Map;
 
 import java.util.*;
 
+// Tính probability cho mỗi hand tại ván bài cuối cùng
 public class PokerProbabilityCalculator {
 
     // Thực chất chỗ này là update số

@@ -4,7 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 
-
+// Xác định rank mỗi bộ bài
+// So sánh rank 2 người chơi
 public class get_card_infor {
 
     private static final String[] SUIT = { "H", "D", "C", "S" };
