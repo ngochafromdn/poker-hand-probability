@@ -145,7 +145,6 @@ public class PokerProbabilityCalculator {
                 return true; // Có ít nhất một cặp bài
             }
         }
-
         return false; // Không có cặp bài nào
     }
 
