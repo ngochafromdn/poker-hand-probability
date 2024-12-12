@@ -6,64 +6,48 @@ import java.util.Arrays;
 
 public class CardCombinationUtil {
 
-    // Function to generate combinations of 3 cards from given 5 cards
-    private static List<String[]> getCombinations(String[] fiveCards) {
+    public static List<String[]> getCombinations(String[] cards, int r) {
         List<String[]> combinations = new ArrayList<>();
-        generateCombinations(fiveCards, 0, new String[3], 0, combinations);
+        combinationHelper(cards, new String[r], 0, 0, r, combinations);
         return combinations;
     }
 
-    // Recursive function to generate combinations
-    private static void generateCombinations(String[] fiveCards, int start, String[] combination, int index,
-            List<String[]> combinations) {
-        if (index == 3) {
-            combinations.add(combination.clone());
+    private static void combinationHelper(String[] cards, String[] temp, int start, int index, int r, List<String[]> combinations) {
+        if (index == r) {
+            combinations.add(temp.clone());
             return;
         }
 
-        for (int i = start; i <= fiveCards.length - 3 + index; i++) {
-            combination[index] = fiveCards[i];
-            generateCombinations(fiveCards, i + 1, combination, index + 1, combinations);
+        for (int i = start; i < cards.length; i++) {
+            temp[index] = cards[i];
+            combinationHelper(cards, temp, i + 1, index + 1, r, combinations);
         }
     }
 
-    // Function to find the best combination of 5 cards
+
     public static String[] bestCombinationCards(String[] twoCards, String[] fiveCards) {
-        String[] bestCards = new String[5];
-        bestCards[0] = twoCards[0];
-        bestCards[1] = twoCards[1];
-        bestCards[2] = fiveCards[0];
-        bestCards[3] = fiveCards[1];
-        bestCards[4] = fiveCards[2];
+        // Combine twoCards and fiveCards into a single array
+        String[] allCards = new String[7];
+        System.arraycopy(twoCards, 0, allCards, 0, 2); // Copy twoCards into allCards
+        System.arraycopy(fiveCards, 0, allCards, 2, 5); // Copy fiveCards into allCards
 
-        String[] currentCard = new String[5];
-        currentCard[0] = twoCards[0];
-        currentCard[1] = twoCards[1];
+        String[] bestCards = new String[5]; // To hold the best combination of 5 cards
+        List<String[]> combinations = getCombinations(allCards, 5); // Get all combinations of 5 cards from the 7 cards
 
-        List<String[]> combinations = getCombinations(fiveCards);
+        get_card_infor bestCardInfo = null;
+
         for (String[] combination : combinations) {
-            for (int i = 0; i < 3; i++) {
-                currentCard[i + 2] = combination[i];
-            }
+            get_card_infor currentCardInfo = new get_card_infor(combination); // Evaluate the current combination
 
-            get_card_infor bestCardInfo = new get_card_infor(bestCards);
-//            System.out.println(bestCardInfo.get_category());
-            get_card_infor currentCardInfo = new get_card_infor(currentCard);
-//            System.out.println(currentCardInfo.get_category());
-            // Print current card
-
-//            System.out.println("Current card: " + Arrays.toString(currentCard));
-            int result = bestCardInfo.compare_to(currentCardInfo);
-
-            if (result < 0) {
-                bestCards[0] = currentCard[0];
-                bestCards[1] = currentCard[1];
-                bestCards[2] = currentCard[2];
-                bestCards[3] = currentCard[3];
-                bestCards[4] = currentCard[4];
+            // Compare the current combination with the best combination so far
+            if (bestCardInfo == null || bestCardInfo.compare_to(currentCardInfo) < 0) {
+                bestCardInfo = currentCardInfo;
+                System.arraycopy(combination, 0, bestCards, 0, 5); // Update bestCards with the current combination
             }
         }
+
         return bestCards;
     }
+
 
 }

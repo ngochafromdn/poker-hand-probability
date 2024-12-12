@@ -1,6 +1,9 @@
 package PokerHandProbability.Function;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
+
 
 public class get_card_infor {
 
@@ -195,24 +198,41 @@ public class get_card_infor {
     }
 
     public boolean isTwoPair() {
-        int count = 0;
-        for (int i = 0; i < (card_rank.length - 1); i++) {
+        List<String> pairs = new ArrayList<>();
+        String kicker = null;
+
+        // Tìm các cặp bài
+        for (int i = 0; i < card_rank.length - 1; i++) {
             if (card_rank[i].equals(card_rank[i + 1])) {
-                isTwoPair[count] = card_rank[i];
-
-                if (i == 1) {
-                    isTwoPair_highestkick = card_rank[0];
-                }
-
-                if (i == 2) {
-                    isTwoPair_highestkick = card_rank[4];
-                }
-
-                count++;
+                pairs.add(card_rank[i]);
+                i++; // Bỏ qua lá bài tiếp theo vì đã thuộc một cặp
             }
         }
-        return count == 2;
+
+        // Nếu không đủ 2 cặp, trả về false
+        if (pairs.size() < 2) {
+            return false;
+        }
+
+        // Lấy kicker
+        for (String card : card_rank) {
+            if (!pairs.contains(card)) {
+                kicker = card;
+                break;
+            }
+        }
+
+        // Cập nhật thông tin
+        isTwoPair[0] = pairs.get(0);
+        isTwoPair[1] = pairs.get(1);
+        isTwoPair_highestkick = kicker;
+
+        // In ra bộ bài 5 lá khi tìm được 2 cặp
+        System.out.println("Two Pair Hand: " + Arrays.toString(cards));
+
+        return true;
     }
+
 
     public boolean isOnePair() {
         for (int i = 0; i < card_rank.length - 1; i++) {

@@ -11,16 +11,21 @@ public class PokerProbabilityCalculator {
         probabilities.put(result, probabilities.getOrDefault(result, 0.0) + 1);
     }
 
-    // Tạo number_of_cases_simulation, mỗi case gồm num_of_random lá
-    public static void make_simulation(int num_of_random, int number_of_cases_simulation, String[] card_on_desk, String[] card_on_hand, Map<String, Double> probabilities1, Map<String, Double> probabilities2, Double winning_probability ) {
+    public static void make_simulation(
+            int num_of_random,
+            int number_of_cases_simulation,
+            String[] card_on_desk,
+            String[] card_on_hand,
+            Map<String, Double> probabilities1,
+            Map<String, Double> probabilities2,
+            Double[] number_of_wins) { // Sử dụng mảng để truyền tham chiếu
         PokerGenerator generator = new PokerGenerator(); // Assuming this exists
-        int total_new_card  = num_of_random + 2;
+        int total_new_card = num_of_random + 2;
 
         for (int i = 0; i < number_of_cases_simulation; i++) {
             String[] new_card = generator.generatePokerHand(total_new_card, card_on_desk, card_on_hand);
             String[] new_card_1 = Arrays.copyOf(new_card, num_of_random);
             String[] lastTwoElements = Arrays.copyOfRange(new_card, new_card.length - 2, new_card.length);
-
 
             String[] combined_cards_on_desk = new String[5];
             if (card_on_desk != null && card_on_desk.length > 0) {
@@ -32,11 +37,10 @@ public class PokerProbabilityCalculator {
             String[] best_combination_1 = CardCombinationUtil.bestCombinationCards(card_on_hand, combined_cards_on_desk);
             String[] best_combination_2 = CardCombinationUtil.bestCombinationCards(lastTwoElements, combined_cards_on_desk);
 
-            // take result of the recent simulation
+            // Take result of the recent simulation
             get_card_infor newCardInfo1 = new get_card_infor(best_combination_1);
             String result1 = newCardInfo1.get_category_String();
 
-            // take result of the recent simulation
             get_card_infor newCardInfo2 = new get_card_infor(best_combination_2);
             String result2 = newCardInfo2.get_category_String();
 
@@ -45,13 +49,13 @@ public class PokerProbabilityCalculator {
             update_probability(result1, probabilities1);
             update_probability(result2, probabilities2);
 
-            // update winning probability
-            if (winning_index == 1)
-            {winning_probability = winning_probability + 1 ;}
-
-
+            // Update winning probability
+            if ((winning_index == 1)) {
+                number_of_wins[0] += 1; // Cập nhật giá trị trong mảng
+            }
         }
     }
+
 
     public static Map<String, Double>[] calculateProbabilityOnString(
             int num_of_random,
@@ -60,9 +64,9 @@ public class PokerProbabilityCalculator {
             String[] card_on_hand) {
 
         DecimalFormat decimalFormat = new DecimalFormat("0.####"); // Round to 4 decimal places
-        Map<String, Double> probabilities1 = new HashMap<>(); // Your probabilities
-        Map<String, Double> probabilities2 = new HashMap<>(); // Opponent probabilities
-        double totalWinningProbability = 0.0;
+        Map<String, Double> probabilities1 = new HashMap<>();
+        Map<String, Double> probabilities2 = new HashMap<>();
+        Double[] totalWinningProbability = {0.0}; // Sử dụng mảng để lưu giá trị
 
         List<String> categories = Arrays.asList("pair", "two_pair", "three_of_a_kind", "four_of_a_kind",
                 "flush", "full_house", "straight", "straight_flush",
@@ -79,44 +83,25 @@ public class PokerProbabilityCalculator {
 
         for (Map.Entry<String, Double> entry : probabilities1.entrySet()) {
             double probability = entry.getValue() / number_of_cases_simulation;
-
-            // Round numbers without converting to String
             probability = probability < 0.0001
                     ? Double.parseDouble(String.format("%.4e", probability))
                     : Double.parseDouble(decimalFormat.format(probability));
-
             probabilities1.put(entry.getKey(), probability);
         }
 
         for (Map.Entry<String, Double> entry : probabilities2.entrySet()) {
             double probability = entry.getValue() / number_of_cases_simulation;
-
-            // Round numbers without converting to String
             probability = probability < 0.0001
                     ? Double.parseDouble(String.format("%.4e", probability))
                     : Double.parseDouble(decimalFormat.format(probability));
-
             probabilities2.put(entry.getKey(), probability);
         }
 
-        // Additional checks for specific hand combinations
-        if (checkForPair(card_on_desk, card_on_hand)) {
-            probabilities1.put("pair", 1.0);
-        }
+        double winningProbability = totalWinningProbability[0] / number_of_cases_simulation;
+        probabilities1.put("winning_probability",
+                Double.parseDouble(decimalFormat.format(winningProbability)));
 
-        if (checkForTwoPair(card_on_desk, card_on_hand)) {
-            probabilities1.put("two_pair", 1.0);
-        }
 
-        if (checkForThreeOfAKind(card_on_desk, card_on_hand)) {
-            probabilities1.put("three_of_a_kind", 1.0);
-        }
-
-        // Update winning probability
-        totalWinningProbability /= number_of_cases_simulation;
-        probabilities1.put("winning_probability", totalWinningProbability);
-
-        // Return both maps in an array
         return new Map[]{probabilities1, probabilities2};
     }
 

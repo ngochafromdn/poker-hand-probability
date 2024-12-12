@@ -371,16 +371,16 @@ public class PlayPage {
 
                             // Second round: first 1 middle card
                             // Player 1
-                            Map<String, Double> propRound2 = PokerProbabilityCalculator.calculateProbabilityOnString(4, 10000,
-                                    Arrays.copyOfRange(middle_cards, 0, 1), cards_1)[0];
+                            Map<String, Double> propRound2 = PokerProbabilityCalculator.calculateProbabilityOnString(2, 5000,
+                                    middle_cards, cards_1)[0];
                             System.out.println("Player 1 - Round 2 Probability: " + propRound2);
 
                             // Update winning probabilities
                             winning_prob.setText(String.valueOf(propRound2.get("winning_probability")));
 
                             //Player 2
-                            Map<String, Double> propRound2_player2 = PokerProbabilityCalculator.calculateProbabilityOnString(4, 10000,
-                                    Arrays.copyOfRange(middle_cards, 0, 1), cards_1)[1];
+                            Map<String, Double> propRound2_player2 = PokerProbabilityCalculator.calculateProbabilityOnString(2, 5000,
+                                    middle_cards, cards_1)[1];
                             System.out.println("Player 2 - Round 2 Probability: " + propRound2_player2);
 
                             // Update probabilities of player 1
@@ -415,16 +415,16 @@ public class PlayPage {
 
                             // Third round: first 2 middle cards
                             // Player 1
-                            Map<String, Double> propRound3 = PokerProbabilityCalculator.calculateProbabilityOnString(3, 10000,
-                                    Arrays.copyOfRange(middle_cards, 0, 2), cards_1)[0];
+                            Map<String, Double> propRound3 = PokerProbabilityCalculator.calculateProbabilityOnString(1, 10000,
+                                    middle_cards, cards_1)[0];
                             System.out.println("Player 1 - Round 3 Probability: " + propRound3);
 
                             // Update winning probabilities
                             winning_prob.setText(String.valueOf(propRound3.get("winning_probability")));
 
                             //Player 2
-                            Map<String, Double> propRound3_player2 = PokerProbabilityCalculator.calculateProbabilityOnString(4, 10000,
-                                    Arrays.copyOfRange(middle_cards, 0, 1), cards_1)[1];
+                            Map<String, Double> propRound3_player2 = PokerProbabilityCalculator.calculateProbabilityOnString(1, 10000,
+                                    middle_cards, cards_1)[1];
                             System.out.println("Player 2 - Round 2 Probability: " + propRound3_player2);
 
                             // Update probabilities of player 1
@@ -459,42 +459,42 @@ public class PlayPage {
                             bet.setVisible(false);
                             fold.setVisible(false);
 
-                            // Fourth round: first 3 middle cards
-                            Map<String, Double> propRound4 = PokerProbabilityCalculator.calculateProbabilityOnString(2, 30000,
-                                    Arrays.copyOfRange(middle_cards, 0, 3), cards_1)[0];
-                            System.out.println("Player 1 - Round 4 Probability: " + propRound4);
-
-                            // Update winning probabilities
-                            winning_prob.setText(String.valueOf(propRound4.get("winning_probability")));
-
-                            //Player 2
-                            Map<String, Double> propRound4_player2 = PokerProbabilityCalculator.calculateProbabilityOnString(4, 10000,
-                                    Arrays.copyOfRange(middle_cards, 0, 1), cards_1)[1];
-                            System.out.println("Player 2 - Round 2 Probability: " + propRound4_player2);
+//                            // Fourth round: first 3 middle cards
+//                            Map<String, Double> propRound4 = PokerProbabilityCalculator.calculateProbabilityOnString(2, 30000,
+//                                    Arrays.copyOfRange(middle_cards, 0, 3), cards_1)[0];
+//                            System.out.println("Player 1 - Round 4 Probability: " + propRound4);
+//
+//                            // Update winning probabilities
+//                            winning_prob.setText(String.valueOf(propRound4.get("winning_probability")));
+//
+//                            //Player 2
+//                            Map<String, Double> propRound4_player2 = PokerProbabilityCalculator.calculateProbabilityOnString(4, 10000,
+//                                    Arrays.copyOfRange(middle_cards, 0, 1), cards_1)[1];
+//                            System.out.println("Player 2 - Round 2 Probability: " + propRound4_player2);
 
                             // Update probabilities of player 1
-                            table.setValueAt(propRound4.get("royal_flush"), 0, 1);
-                            table.setValueAt(propRound4.get("straight_flush"), 1, 1);
-                            table.setValueAt(propRound4.get("four_of_a_kind"), 2, 1);
-                            table.setValueAt(propRound4.get("full_house"), 3, 1);
-                            table.setValueAt(propRound4.get("flush"), 4, 1);
-                            table.setValueAt(propRound4.get("straight"), 5, 1);
-                            table.setValueAt(propRound4.get("three_of_a_kind"), 6, 1);
-                            table.setValueAt(propRound4.get("two_pair"), 7, 1);
-                            table.setValueAt(propRound4.get("pair"), 8, 1);
-                            table.setValueAt(propRound4.get("high_card"), 9, 1);
-
-                            // Update probabilities of player 2
-                            table.setValueAt(propRound4_player2.get("royal_flush"), 0, 2);
-                            table.setValueAt(propRound4_player2.get("straight_flush"), 1, 2);
-                            table.setValueAt(propRound4_player2.get("four_of_a_kind"), 2, 2);
-                            table.setValueAt(propRound4_player2.get("full_house"), 3, 2);
-                            table.setValueAt(propRound4_player2.get("flush"), 4, 2);
-                            table.setValueAt(propRound4_player2.get("straight"), 5, 2);
-                            table.setValueAt(propRound4_player2.get("three_of_a_kind"), 6, 2);
-                            table.setValueAt(propRound4_player2.get("two_pair"), 7, 2);
-                            table.setValueAt(propRound4_player2.get("pair"), 8, 2);
-                            table.setValueAt(propRound4_player2.get("high_card"), 9, 2);
+//                            table.setValueAt(propRound4.get("royal_flush"), 0, 1);
+//                            table.setValueAt(propRound4.get("straight_flush"), 1, 1);
+//                            table.setValueAt(propRound4.get("four_of_a_kind"), 2, 1);
+//                            table.setValueAt(propRound4.get("full_house"), 3, 1);
+//                            table.setValueAt(propRound4.get("flush"), 4, 1);
+//                            table.setValueAt(propRound4.get("straight"), 5, 1);
+//                            table.setValueAt(propRound4.get("three_of_a_kind"), 6, 1);
+//                            table.setValueAt(propRound4.get("two_pair"), 7, 1);
+//                            table.setValueAt(propRound4.get("pair"), 8, 1);
+//                            table.setValueAt(propRound4.get("high_card"), 9, 1);
+//
+//                            // Update probabilities of player 2
+//                            table.setValueAt(propRound4_player2.get("royal_flush"), 0, 2);
+//                            table.setValueAt(propRound4_player2.get("straight_flush"), 1, 2);
+//                            table.setValueAt(propRound4_player2.get("four_of_a_kind"), 2, 2);
+//                            table.setValueAt(propRound4_player2.get("full_house"), 3, 2);
+//                            table.setValueAt(propRound4_player2.get("flush"), 4, 2);
+//                            table.setValueAt(propRound4_player2.get("straight"), 5, 2);
+//                            table.setValueAt(propRound4_player2.get("three_of_a_kind"), 6, 2);
+//                            table.setValueAt(propRound4_player2.get("two_pair"), 7, 2);
+//                            table.setValueAt(propRound4_player2.get("pair"), 8, 2);
+//                            table.setValueAt(propRound4_player2.get("high_card"), 9, 2);
 
                             // Show up two cards of Computer
                             Timer timer_showing_Card = new Timer(3000, event -> {
