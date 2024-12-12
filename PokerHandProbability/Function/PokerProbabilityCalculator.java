@@ -106,100 +106,100 @@ public class PokerProbabilityCalculator {
     }
 
 
-    private static boolean checkForPair(String[] card_on_desk, String[] card_on_hand) {
-        // Kết hợp hai mảng thành một
-        String[] mergedArray = new String[card_on_desk.length + card_on_hand.length];
-        System.arraycopy(card_on_desk, 0, mergedArray, 0, card_on_desk.length);
-        System.arraycopy(card_on_hand, 0, mergedArray, card_on_desk.length, card_on_hand.length);
-
-        // Lấy phần "rank" (tên quân bài) từ tất cả các quân bài
-        List<String> ranks = new ArrayList<>();
-        for (String card : mergedArray) {
-            ranks.add(card.substring(0, card.length() - 1)); // Lấy phần rank
-        }
-
-        // Sử dụng một Map để đếm số lần xuất hiện của mỗi rank
-        Map<String, Integer> rankCounts = new HashMap<>();
-        for (String rank : ranks) {
-            rankCounts.put(rank, rankCounts.getOrDefault(rank, 0) + 1);
-        }
-
-        // Kiểm tra xem có rank nào xuất hiện ít nhất 2 lần
-        for (int count : rankCounts.values()) {
-            if (count >= 2) {
-                return true; // Có ít nhất một cặp bài
-            }
-        }
-        return false; // Không có cặp bài nào
-    }
-
-    private static boolean checkForTwoPair(String[] card_on_desk, String[] card_on_hand) {
-        if ((card_on_desk.length) < 2)
-        {
-            return false;
-        }
-        // Kết hợp hai mảng thành một
-        String[] mergedArray = new String[card_on_desk.length + card_on_hand.length];
-        System.arraycopy(card_on_desk, 0, mergedArray, 0, card_on_desk.length);
-        System.arraycopy(card_on_hand, 0, mergedArray, card_on_desk.length, card_on_hand.length);
-
-        // Lấy phần "rank" (tên quân bài) từ tất cả các quân bài
-        List<String> ranks = new ArrayList<>();
-        for (String card : mergedArray) {
-            ranks.add(card.substring(0, card.length() - 1));
-        }
-
-        // Đếm số lần xuất hiện của từng rank
-        Map<String, Integer> rankCounts = new HashMap<>();
-        for (String rank : ranks) {
-            rankCounts.put(rank, rankCounts.getOrDefault(rank, 0) + 1);
-        }
-
-        // Kiểm tra xem có ít nhất hai cặp (hai rank xuất hiện đúng 2 lần)
-        int pairs = 0;
-        for (int count : rankCounts.values()) {
-            if (count == 2) {
-                pairs++;
-            }
-        }
-
-        return pairs >= 2; // Có ít nhất hai cặp
-    }
-
-    private static boolean checkForThreeOfAKind(String[] card_on_desk, String[] card_on_hand) {
-
-        if ((card_on_desk.length) < 1)
-        {
-            return false;
-        }
-
-        // Kết hợp hai mảng thành một
-        String[] mergedArray = new String[card_on_desk.length + card_on_hand.length];
-        System.arraycopy(card_on_desk, 0, mergedArray, 0, card_on_desk.length);
-        System.arraycopy(card_on_hand, 0, mergedArray, card_on_desk.length, card_on_hand.length);
-
-        // Lấy phần "rank" (tên quân bài) từ tất cả các quân bài
-        List<String> ranks = new ArrayList<>();
-        for (String card : mergedArray) {
-            ranks.add(card.substring(0, card.length() - 1));
-        }
-
-        // Đếm số lần xuất hiện của từng rank
-        Map<String, Integer> rankCounts = new HashMap<>();
-        for (String rank : ranks) {
-            rankCounts.put(rank, rankCounts.getOrDefault(rank, 0) + 1);
-        }
-
-        // Kiểm tra xem có rank nào xuất hiện ít nhất 3 lần
-        for (int count : rankCounts.values()) {
-            if (count >= 3) {
-                return true; // Có một bộ ba
-            }
-        }
-
-        return false; // Không có bộ ba
-    }
-
+//    private static boolean checkForPair(String[] card_on_desk, String[] card_on_hand) {
+//        // Kết hợp hai mảng thành một
+//        String[] mergedArray = new String[card_on_desk.length + card_on_hand.length];
+//        System.arraycopy(card_on_desk, 0, mergedArray, 0, card_on_desk.length);
+//        System.arraycopy(card_on_hand, 0, mergedArray, card_on_desk.length, card_on_hand.length);
+//
+//        // Lấy phần "rank" (tên quân bài) từ tất cả các quân bài
+//        List<String> ranks = new ArrayList<>();
+//        for (String card : mergedArray) {
+//            ranks.add(card.substring(0, card.length() - 1)); // Lấy phần rank
+//        }
+//
+//        // Sử dụng một Map để đếm số lần xuất hiện của mỗi rank
+//        Map<String, Integer> rankCounts = new HashMap<>();
+//        for (String rank : ranks) {
+//            rankCounts.put(rank, rankCounts.getOrDefault(rank, 0) + 1);
+//        }
+//
+//        // Kiểm tra xem có rank nào xuất hiện ít nhất 2 lần
+//        for (int count : rankCounts.values()) {
+//            if (count >= 2) {
+//                return true; // Có ít nhất một cặp bài
+//            }
+//        }
+//        return false; // Không có cặp bài nào
+//    }
+//
+//    private static boolean checkForTwoPair(String[] card_on_desk, String[] card_on_hand) {
+//        if ((card_on_desk.length) < 2)
+//        {
+//            return false;
+//        }
+//        // Kết hợp hai mảng thành một
+//        String[] mergedArray = new String[card_on_desk.length + card_on_hand.length];
+//        System.arraycopy(card_on_desk, 0, mergedArray, 0, card_on_desk.length);
+//        System.arraycopy(card_on_hand, 0, mergedArray, card_on_desk.length, card_on_hand.length);
+//
+//        // Lấy phần "rank" (tên quân bài) từ tất cả các quân bài
+//        List<String> ranks = new ArrayList<>();
+//        for (String card : mergedArray) {
+//            ranks.add(card.substring(0, card.length() - 1));
+//        }
+//
+//        // Đếm số lần xuất hiện của từng rank
+//        Map<String, Integer> rankCounts = new HashMap<>();
+//        for (String rank : ranks) {
+//            rankCounts.put(rank, rankCounts.getOrDefault(rank, 0) + 1);
+//        }
+//
+//        // Kiểm tra xem có ít nhất hai cặp (hai rank xuất hiện đúng 2 lần)
+//        int pairs = 0;
+//        for (int count : rankCounts.values()) {
+//            if (count == 2) {
+//                pairs++;
+//            }
+//        }
+//
+//        return pairs >= 2; // Có ít nhất hai cặp
+//    }
+//
+//    private static boolean checkForThreeOfAKind(String[] card_on_desk, String[] card_on_hand) {
+//
+//        if ((card_on_desk.length) < 1)
+//        {
+//            return false;
+//        }
+//
+//        // Kết hợp hai mảng thành một
+//        String[] mergedArray = new String[card_on_desk.length + card_on_hand.length];
+//        System.arraycopy(card_on_desk, 0, mergedArray, 0, card_on_desk.length);
+//        System.arraycopy(card_on_hand, 0, mergedArray, card_on_desk.length, card_on_hand.length);
+//
+//        // Lấy phần "rank" (tên quân bài) từ tất cả các quân bài
+//        List<String> ranks = new ArrayList<>();
+//        for (String card : mergedArray) {
+//            ranks.add(card.substring(0, card.length() - 1));
+//        }
+//
+//        // Đếm số lần xuất hiện của từng rank
+//        Map<String, Integer> rankCounts = new HashMap<>();
+//        for (String rank : ranks) {
+//            rankCounts.put(rank, rankCounts.getOrDefault(rank, 0) + 1);
+//        }
+//
+//        // Kiểm tra xem có rank nào xuất hiện ít nhất 3 lần
+//        for (int count : rankCounts.values()) {
+//            if (count >= 3) {
+//                return true; // Có một bộ ba
+//            }
+//        }
+//
+//        return false; // Không có bộ ba
+//    }
+//
 
 
     public void printProbabilities(Map<String, Double> probabilities) {
