@@ -4,6 +4,12 @@
 
 The Poker Hand Game is a Java Swing-based application that simulates a simplified version of the popular card game Poker. It allows players to experience the thrill of playing Poker on their computer.
 
+   <div class="row">
+      <div class="column">
+         <img src="screen.png" width="100%">
+      </div>
+   </div>
+
 ### Key Features
 
 1. **User Interface**: The game provides an intuitive user interface designed using Java Swing components, allowing players to interact with the game easily.
